@@ -1,0 +1,271 @@
+{%- style -%}
+    /* Load Comforter Font */
+    @import url('https://fonts.googleapis.com/css2?family=Comforter&display=swap');
+
+    .custom-header-container {
+      background-color: {{ section.settings.bg_color }};
+      border-bottom: 1px solid #e8e8e8;
+      padding: {{ section.settings.padding_y }}px 4%;
+    }
+
+    .custom-grid-header {
+      display: grid;
+      grid-template-columns: 1.2fr 1.3fr 3.2fr 0.3fr 1.7fr;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Part 1: Logo */
+    .header-grid__logo {
+      grid-column: 1;
+    }
+    .header-grid__logo a {
+      text-decoration: none;
+      color: {{ section.settings.text_color }};
+    }
+    .header-grid__logo img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .logo-text-custom {
+      font-family: 'Comforter', cursive;
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+      padding-left: 20%;
+    }
+
+    /* Part 3: Menu */
+    .header-grid__menu-wrapper {
+      grid-column: 3;
+    }
+    .header-grid__menu {
+      display: flex;
+      justify-content: flex-start;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 45px; /* Controlled gap between the 4 menu items */
+    }
+    .header-grid__menu a {
+      display: inline-block;
+      text-decoration: none;
+      color: {{ section.settings.text_color }};
+      font-family: 'Raleway', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      white-space: nowrap;
+      position: relative;
+      transition: transform 0.2s ease-in-out;
+    }
+    .header-grid__menu a:hover {
+      transform: scale(1.02);
+      color: #EF4444;
+      font-weight: 700;
+    }
+    .header-grid__menu a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+      width: 4px;
+      height: 4px;
+      background-color: #EF4444;
+      border-radius: 50%;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .header-grid__menu a:hover::after {
+      transform: translateX(-50%) scale(1);
+    }
+
+
+    .header-grid__cart {
+      grid-column: 4;
+      justify-self: center;
+    }
+    .header-grid__cart svg {
+      width: 24px; 
+      height: 24px;
+      color: {{ section.settings.cart_color }};
+      display: block;
+      stroke-width: 2;
+      color: #EF4444;
+    }
+
+    .header-grid__btn {
+      grid-column: 5;
+      background-color: {{ section.settings.btn_bg_color }};
+      color: {{ section.settings.btn_text_color }};
+      padding: 12px 10px;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 1000;
+      text-align: center;
+      font-size: 16px;
+      white-space: nowrap;
+      font-family: 'Raleway', sans-serif;
+      display: block;
+      margin-right: 20%;
+      -webkit-text-stroke: 0.7px #ffffff;
+    }
+    .header-grid__btn::after {
+      content: ' →';
+      display: inline-block;
+      margin-left: 2px;
+      transform: translateY(2px);
+  }
+
+    @media screen and (max-width: 1100px) {
+      .header-grid__menu { gap: 15px; }
+      .header-grid__menu a { font-size: 14px; }
+      .logo-text-custom { font-size: 28px; }
+    }
+
+    @media screen and (max-width: 768px) {
+      .custom-grid-header {
+        grid-template-columns: 1fr 1fr;
+      }
+      .header-grid__menu-wrapper, .header-grid__cart { display: none; }
+      .header-grid__btn { grid-column: 2; }
+    }
+{%- endstyle -%}
+
+<div class="custom-header-container">
+  <header class="custom-grid-header">
+    <div class="header-grid__logo">
+      <a href="/">
+        {% if section.settings.logo != blank %}
+          {{ section.settings.logo | image_url: width: 300 | image_tag: loading: 'lazy' }}
+        {% else %}
+          <span class="logo-text-custom">
+            {{ section.settings.logo_text | default: shop.name }}
+          </span>
+        {% endif %}
+      </a>
+    </div>
+
+    <div></div>
+
+    <nav class="header-grid__menu-wrapper">
+      <ul class="header-grid__menu">
+        <li><a href="#">Learning Center</a></li>
+        <li><a href="#">Our Coffee Solutions</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Blogs</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-grid__cart">
+      <a href="/cart">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M3 6H22L19 16H6L3 6ZM3 6L2.25 3.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M11 19.5C11 20.3284 10.3284 21 9.5 21C8.67157 21 8 20.3284 8 19.5C8 18.6716 8.67157 18 9.5 18C10.3284 18 11 18.6716 11 19.5Z" fill="currentColor"/>
+          <path d="M17 19.5C17 20.3284 16.3284 21 15.5 21C14.6716 21 14 20.3284 14 19.5C14 18.6716 14.6716 18 15.5 18C16.3284 18 17 18.6716 17 19.5Z" fill="currentColor"/>
+        </svg>
+      </a>
+    </div>
+
+    <a href="{{ section.settings.btn_link }}" class="header-grid__btn">
+      {{ section.settings.btn_text }}
+    </a>
+  </header>
+</div>
+
+{% schema %}
+{
+  "name": "Coffee Header",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Menu & Logo Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image (Overrides Text)"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "Coffee Shop"
+    },
+    {
+      "type": "header",
+      "content": "Cart"
+    },
+    {
+      "type": "color",
+      "id": "cart_color",
+      "label": "Cart Icon Color",
+      "default": "#D93232"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text",
+      "default": "TAKE THE SURVEY"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_color",
+      "label": "Button Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "label": "Vertical Padding",
+      "min": 5,
+      "max": 50,
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Coffee Header"
+    }
+  ]
+}
+{% endschema %}
