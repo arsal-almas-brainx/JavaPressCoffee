@@ -1,0 +1,431 @@
+{%- style -%}
+  {%- assign font_body = section.settings.font_body -%}
+  
+  {{ font_body | font_face: font_display: 'swap' }}
+  
+  /* Ensure bold/italic variants load if the font has them */
+  {{ font_body | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ font_body | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+
+  .section-featured-product-{{ section.id }} {
+    font-family: {{ font_body.family }}, {{ font_body.fallback_families }};
+    font-style: {{ font_body.style }};
+    font-weight: {{ font_body.weight }};
+  }
+
+  .section-featured-product-{{ section.id }}{
+      display: grid;
+      grid-template-columns: 50% 50%;
+      padding-left: 8%;
+      padding-right: 8%;
+      gap: 3%;
+  }
+  .featured-product-left-image-{{ section.id }}{
+      width: 110%;
+      height: 110%;
+      object-fit: cover;
+      border-radius: 1.4%;
+  }
+  .featured-product-tags-container-{{ section.id }}{
+      display: grid;
+      grid-template-columns: 10% 10%;
+      gap: 1.5%;
+      margin-top: 2%;
+  }
+  .featured-product-tag-{{ section.id }} {
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 400;
+      padding: 9px;
+  }
+  .featured-product-tag-1-{{ section.id }}{
+      background-color: #ECE03A;
+      color: black;
+  }
+  .featured-product-tag-2-{{ section.id }}{
+      background-color: #424242;
+      color: white;
+  }
+  .featured-product-card-h4-{{ section.id }}{
+      font-size: 23px;
+      font-weight: 600;
+      margin-top: 3%;
+      margin-bottom: 0;
+  }
+  .featured-product-rating-container-{{ section.id }}{
+      font-size: 12px;
+      margin-top: 2%;
+      margin-bottom: 3%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+  }
+  .star-group-{{ section.id }} {
+      display: flex;
+      gap: 0; 
+  }
+  .star-{{ section.id }} {
+      width: 11px;  
+      height: 11px; 
+      fill: #DEB126; 
+  }
+  .featured-product-rating-{{ section.id }}{
+      font-weight: 600;
+      margin-top: 0;
+  }
+  .product-card-price-container-{{ section.id }}{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: -2.2%;
+  }
+  .product-card-real-price-{{ section.id }}{
+      font-size: 23px;
+      font-weight: 600;
+      color: #EF4444;
+  }
+  .product-card-cut-price-{{ section.id }}{
+      font-size: 13px;
+      font-weight: 400;
+      color: #929292;
+      text-decoration: line-through;
+      margin-top: -4.2%;
+  }
+  .featured-card-description-{{ section.id }}{
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 200%;
+      color: #424242;
+      width: 88%;
+      margin-top: -2%;
+  }
+  .dropdown-container-right-3-{{ section.id }}{
+      display: grid;
+      grid-template-columns: 42% 55%;
+      gap: 4.5%;
+      margin-top: 5%;
+  }
+  .custom-dropdown-{{ section.id }} {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+  }
+  .dropdown-trigger-{{ section.id }} {
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px 20px;
+      cursor: pointer;
+      background: #fff;
+      border: 1px solid #424242;
+      width: 100%;
+      border-radius: 4px;
+  }
+  .dropdown-flavour-{{ section.id }} .dropdown-trigger-{{ section.id }}{
+      width: 84%;
+  }
+  .dropdown-trigger-{{ section.id }} span {
+      font-size: 15px;
+      color: #424242;
+  }
+  .triangle-icon-{{ section.id }} {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+  }
+  .custom-dropdown-{{ section.id }}.is-active .triangle-icon-{{ section.id }} {
+      transform: rotate(180deg);
+  }
+  .dropdown-list-{{ section.id }} {
+      display: none; 
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      list-style: none;
+      margin: 4px 0 0 0;
+      padding: 0;
+      z-index: 100;
+  }
+  .dropdown-list-{{ section.id }}.show {
+      display: block;
+  }
+  .dropdown-item-{{ section.id }} {
+      display: block;
+      padding: 10px 16px;
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+  }
+  .right-dropdown-heading-{{ section.id }}{
+      font-size: 15px;
+      font-weight: 600;
+  }
+  .block-right-3-{{ section.id }}{
+      margin-top: 4%;
+  }
+  .right-quantity-and-button-{{ section.id }}{
+      display: grid;
+      grid-template-columns: 28% 68%;
+      gap: 4.5%;
+      margin-top: 3%;
+  }
+  .quantity-picker-{{ section.id }} {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #424242; 
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #fff;
+      width: 100%;
+      justify-content: space-between;
+      height: 61%;
+  }
+  .qty-btn-{{ section.id }} {
+      width: 23.5%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 20px;
+      font-weight: 100;
+      color: #424242;
+      background-color: #F2F2F2;
+  }
+  .qty-number-{{ section.id }} {
+      min-width: 45px;
+      text-align: center;
+      font-size: 19px;
+      color: #424242;
+  }
+  .right-block-3-button-{{ section.id }}{
+      width: 88.5%;
+      color: white;
+      background-color: #EF4444;
+      font-size: 17px;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      border: none;
+      border-radius: 4px;
+      padding: 3.5%;
+      cursor: pointer;
+  }
+  .right-button-bottom-{{ section.id }} {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      font-size: 10px;
+      font-weight: 600;
+      color: #075D57;
+      margin-top: 2.5%;
+      margin-right: 7%;
+  }
+  .right-button-bottom-{{ section.id }} p {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin: 0;
+  }
+  .check-circle-{{ section.id }} {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      background-color: #075D57;
+      border-radius: 50%;
+      flex-shrink: 0;
+  }
+  .block-right-2-{{ section.id }} {
+    margin-top: 3%;
+  }
+  .check-circle-{{ section.id }} svg {
+      width: 10px;
+      height: 10px;
+      fill: #ffffff;
+  }
+{%- endstyle -%}
+
+<div class="section-featured-product-{{ section.id }}">
+  <div class="featured-product-left-{{ section.id }}">
+        <div class="featured-product-left-image-container-{{ section.id }}">
+            {% if section.settings.image != blank %}
+              {%- assign image_class = 'featured-product-left-image-' | append: section.id -%}
+              {{ section.settings.image | image_url: width: 1108 | image_tag: 
+                  class: image_class, 
+                  loading: 'lazy',
+                  width: 1108,
+                  height: 1170,
+                  alt: section.settings.title 
+              }}
+            {% else %}
+               {%- assign placeholder_class = 'featured-product-left-image-' | append: section.id -%}
+              {{ 'product-1' | placeholder_svg_tag: placeholder_class }}
+            {% endif %}
+        </div>
+    </div>
+    <div class="featured-product-right-{{ section.id }}">
+        <div class="block-right-1-{{ section.id }} featured-product-tags-container-{{ section.id }}">
+            <div class="featured-product-tag-{{ section.id }} featured-product-tag-1-{{ section.id }}">
+                {{ section.settings.tag_1 }}
+            </div>
+            <div class="featured-product-tag-{{ section.id }} featured-product-tag-2-{{ section.id }}">
+                {{ section.settings.tag_2 }}
+            </div>
+        </div>
+        
+        <div class="block-right-2-{{ section.id }}">
+            <h4 class="featured-product-card-h4-{{ section.id }}">{{ section.settings.title }}</h4>
+            <div class="featured-product-rating-container-{{ section.id }}">
+                <div class="star-group-{{ section.id }}">
+                    <svg style="display: none;">
+                        <symbol id="star-{{ section.id }}" viewBox="0 0 24 24">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                        </symbol>
+                    </svg>
+                    {% for i in (1..5) %}
+                    <svg class="star-{{ section.id }}"><use href="#star-{{ section.id }}"></use></svg>
+                    {% endfor %}
+                </div>
+                <p class="featured-product-rating-{{ section.id }}">{{ section.settings.rating_text }}</p>
+            </div>
+            <div class="product-card-price-container-{{ section.id }}">
+                <p class="product-card-real-price-{{ section.id }}">{{ section.settings.price }}</p>
+                <p class="product-card-cut-price-{{ section.id }}">{{ section.settings.compare_price }}</p>
+            </div>
+            <div class="featured-card-description-{{ section.id }}">
+                {{ section.settings.description }}
+            </div>
+        </div>
+
+        <div class="block-right-3-{{ section.id }}">
+            <div class="dropdown-container-right-3-{{ section.id }}">
+                <div class="dropdown-potency-{{ section.id }}">
+                    <p class="right-dropdown-heading-{{ section.id }}">{{ section.settings.drop_1_label }}</p>
+                    <div class="custom-dropdown-{{ section.id }}" id="drop-wrap-1-{{ section.id }}">
+                        <button type="button" class="dropdown-trigger-{{ section.id }}" id="drop-btn-1-{{ section.id }}">
+                            <span id="current-val-1-{{ section.id }}">{{ section.settings.drop_1_default }}</span>
+                            <svg class="triangle-icon-{{ section.id }}" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" fill="#424242"/></svg>
+                        </button>
+                        <ul class="dropdown-list-{{ section.id }}" id="drop-list-1-{{ section.id }}">
+                            {% assign opts1 = section.settings.drop_1_options | split: ',' %}
+                            {% for opt in opts1 %}<li class="dropdown-item-{{ section.id }}">{{ opt | strip }}</li>{% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown-flavour-{{ section.id }}">
+                    <p class="right-dropdown-heading-{{ section.id }}">{{ section.settings.drop_2_label }}</p>
+                    <div class="custom-dropdown-{{ section.id }}" id="drop-wrap-2-{{ section.id }}">
+                        <button type="button" class="dropdown-trigger-{{ section.id }}" id="drop-btn-2-{{ section.id }}">
+                            <span id="current-val-2-{{ section.id }}">{{ section.settings.drop_2_default }}</span>
+                            <svg class="triangle-icon-{{ section.id }}" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" fill="#424242"/></svg>
+                        </button>
+                        <ul class="dropdown-list-{{ section.id }}" id="drop-list-2-{{ section.id }}">
+                            {% assign opts2 = section.settings.drop_2_options | split: ',' %}
+                            {% for opt in opts2 %}<li class="dropdown-item-{{ section.id }}">{{ opt | strip }}</li>{% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-quantity-and-button-{{ section.id }}">
+                <p class="right-dropdown-heading-{{ section.id }}">Quantity:</p><br>
+                <div>
+                    
+                    <div class="quantity-picker-{{ section.id }}">
+                        <button type="button" class="qty-btn-{{ section.id }}" id="minus-{{ section.id }}">−</button>
+                        <span class="qty-number-{{ section.id }}" id="qty-val-{{ section.id }}">1</span>
+                        <button type="button" class="qty-btn-{{ section.id }}" id="plus-{{ section.id }}">+</button>
+                    </div>
+                </div>
+                <div class="right-button-{{ section.id }}">
+                    <button type="button" class="right-block-3-button-{{ section.id }}">ADD TO CART</button>
+                    <div class="right-button-bottom-{{ section.id }}">
+                        <p><span class="check-circle-{{ section.id }}"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>Secure Checkout</p>
+                        <p><span class="check-circle-{{ section.id }}"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>Secure Shipping</p>
+                        <p><span class="check-circle-{{ section.id }}"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>Satisfaction Guarantee</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    function setupDrop(wrapId, btnId, listId, valId) {
+        const wrap = document.getElementById(wrapId);
+        const btn = document.getElementById(btnId);
+        const list = document.getElementById(listId);
+        const valDisplay = document.getElementById(valId);
+
+        if(!btn || !list) return;
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            list.classList.toggle('show');
+            wrap.classList.toggle('is-active');
+        });
+
+        list.addEventListener('click', (e) => {
+            if (e.target.classList.contains('dropdown-item-{{ section.id }}')) {
+                valDisplay.innerText = e.target.innerText;
+                list.classList.remove('show');
+                wrap.classList.remove('is-active');
+            }
+        });
+    }
+
+    setupDrop('drop-wrap-1-{{ section.id }}', 'drop-btn-1-{{ section.id }}', 'drop-list-1-{{ section.id }}', 'current-val-1-{{ section.id }}');
+    setupDrop('drop-wrap-2-{{ section.id }}', 'drop-btn-2-{{ section.id }}', 'drop-list-2-{{ section.id }}', 'current-val-2-{{ section.id }}');
+
+    let qty = 1;
+    const qVal = document.getElementById('qty-val-{{ section.id }}');
+    const pBtn = document.getElementById('plus-{{ section.id }}');
+    const mBtn = document.getElementById('minus-{{ section.id }}');
+    
+    if(pBtn) pBtn.onclick = () => { qty++; qVal.innerText = qty; };
+    if(mBtn) mBtn.onclick = () => { if(qty > 1) { qty--; qVal.innerText = qty; }};
+
+    window.onclick = () => {
+        document.querySelectorAll('.dropdown-list-{{ section.id }}').forEach(l => l.classList.remove('show'));
+        document.querySelectorAll('.custom-dropdown-{{ section.id }}').forEach(w => w.classList.remove('is-active'));
+    };
+});
+</script>
+
+{% schema %}
+{
+  "name": "Featured Product Static",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Product Image" },
+    { "type": "text", "id": "tag_1", "label": "Tag 1", "default": "Best Sellers" },
+    { "type": "text", "id": "tag_2", "label": "Tag 2", "default": "Staff Pick" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Roasted Coffee Grinder Chocolate Flavour" },
+    { "type": "text", "id": "rating_text", "label": "Rating Text", "default": "4.9/5.00 ( 171 Reviews )" },
+    { "type": "text", "id": "price", "label": "Price", "default": "$39.99" },
+    { "type": "text", "id": "compare_price", "label": "Compare Price", "default": "$43.00" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Pure Vitamin C easily dissolvable in liquids for gentle ingestion and improved absorption. Rigorously tested to ensure freedom from GMOs, corn, and other impurities." },
+    { "type": "text", "id": "drop_1_label", "label": "Drop 1 Label", "default": "Potency:" },
+    { "type": "text", "id": "drop_1_default", "label": "Drop 1 Default", "default": "800mg" },
+    { "type": "text", "id": "drop_1_options", "label": "Drop 1 List (comma separated)", "default": "800mg, 1000mg, 600mg, 400mg" },
+    { "type": "text", "id": "drop_2_label", "label": "Drop 2 Label", "default": "Flavour:" },
+    { "type": "text", "id": "drop_2_default", "label": "Drop 2 Default", "default": "Chocolate" },
+    { "type": "text", "id": "drop_2_options", "label": "Drop 2 List (comma separated)", "default": "Chocolate, Vanilla, Caramel" },
+    { "type": "font_picker", "id": "font_body", "label": "Body Font", "default": "raleway_n4" }
+  ],
+  "presets": [{ "name": "Featured Product Static" }]
+}
+{% endschema %}
