@@ -32,11 +32,11 @@
       ],
       "name": "Coffee Hero",
       "settings": {
-        "bg_color": "#075D57",
+        "bg_color": "#075d57",
         "text_color": "#ffffff",
-        "accent_color": "#DEB126",
-        "btn_1_bg": "#EF4444",
-        "btn_2_bg": "#064A46",
+        "accent_color": "#deb126",
+        "btn_1_bg": "#ef4444",
+        "btn_2_bg": "#064a46",
         "font_heading": "raleway_n4",
         "font_body": "raleway_n4",
         "hero_image": "shopify://shop_images/Clip_path_group_1_d47ae09b-3200-49ff-8155-ca576fc83889.png"
@@ -86,10 +86,32 @@
         "font_heading": "raleway_n4",
         "font_body": "raleway_n4"
       }
+    },
+    "featured_product_custom_gfxbmn": {
+      "type": "featured-product-custom",
+      "name": "Featured Product Static",
+      "settings": {
+        "image": "shopify://shop_images/featured-1-bag.png",
+        "tag_1": "Best Sellers",
+        "tag_2": "Staff Pick",
+        "title": "Roasted Coffee Grinder Chocolate Flavour",
+        "rating_text": "4.9/5.00 ( 171 Reviews )",
+        "price": "$39.99",
+        "compare_price": "$43.00",
+        "description": "Pure Vitamin C easily dissolvable in liquids for gentle ingestion and improved absorption. Rigorously tested to ensure freedom from GMOs, corn, and other impurities.",
+        "drop_1_label": "Potency:",
+        "drop_1_default": "800mg",
+        "drop_1_options": "800mg, 1000mg, 600mg, 400mg",
+        "drop_2_label": "Flavour:",
+        "drop_2_default": "Chocolate",
+        "drop_2_options": "Chocolate, Vanilla, Caramel",
+        "font_body": "raleway_n4"
+      }
     }
   },
   "order": [
     "custom_hero_qAQ8Px",
-    "tabbed_best_sellers_PAVBGz"
+    "tabbed_best_sellers_PAVBGz",
+    "featured_product_custom_gfxbmn"
   ]
 }

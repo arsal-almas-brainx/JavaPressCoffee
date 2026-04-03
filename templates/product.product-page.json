@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "custom_placeholder": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": ""
+      }
+    }
+  },
+  "order": [
+    "custom_placeholder"
+  ]
+}

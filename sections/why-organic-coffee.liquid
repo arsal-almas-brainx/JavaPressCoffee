@@ -1,0 +1,211 @@
+{%- style -%}
+  /* 1. LOAD FONT WEIGHTS FROM PICKER */
+  {{ section.settings.font_body | font_face: font_display: 'swap' }}
+
+  {%- assign font_500 = section.settings.font_body | font_modify: 'weight', '500' -%}
+  {%- if font_500 -%}{{ font_500 | font_face: font_display: 'swap' }}{%- endif -%}
+
+  {%- assign font_700 = section.settings.font_body | font_modify: 'weight', '700' -%}
+  {%- if font_700 -%}{{ font_700 | font_face: font_display: 'swap' }}{%- endif -%}
+
+  /* 2. APPLY STYLES (Maintaining original percentages) */
+  .section-why-100-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    font-family: {{ section.settings.font_body.family }}, {{ section.settings.font_body.fallback_families }} !important;
+  }
+
+  .why-100-container-{{ section.id }} {
+    padding: 2.5% 9%;
+  }
+
+  .why-100-main-heading-{{ section.id }} {
+    font-size: 32px;
+    font-weight: 700 !important;
+    text-align: center;
+    color: {{ section.settings.text_color }};
+    margin-bottom: 3%;
+  }
+
+  .why-4-columns-container-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    gap: 1%;
+  }
+
+  .why-4-column-{{ section.id }} {
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .why-4-column-img-container-{{ section.id }} {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+
+  .why-4-column-img-{{ section.id }} {
+    width: 61px;
+    height: 65px;
+    object-fit: contain;
+  }
+
+  .why-4-column-heading-{{ section.id }} {
+    font-size: 16px;
+    font-weight: 700 !important;
+    color: {{ section.settings.text_color_alt }};
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .why-4-column-des-{{ section.id }} {
+    font-size: 14px;
+    font-weight: 500 !important;
+    color: {{ section.settings.text_color_alt }};
+    text-align: center;
+    line-height: 24px;
+    margin-top: -2%;
+  }
+
+  /* Responsive adjustment for Mobile */
+  @media (max-width: 768px) {
+    .why-4-columns-container-{{ section.id }} {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    .why-100-main-heading-{{ section.id }} {
+      font-size: 26px;
+    }
+    .why-100-container-{{ section.id }} {
+      padding: 10% 5%;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-why-100-{{ section.id }}">
+  <div class="why-100-container-{{ section.id }}">
+    <h3 class="why-100-main-heading-{{ section.id }}">{{ section.settings.heading }}</h3>
+    
+    <div class="why-4-columns-container-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        <div class="why-4-column-{{ section.id }}" {{ block.shopify_attributes }}>
+          <div class="why-4-column-img-container-{{ section.id }}">
+            {%- if block.settings.image != blank -%}
+              <img class="why-4-column-img-{{ section.id }}" 
+                   src="{{ block.settings.image | image_url: width: 150 }}" 
+                   alt="{{ block.settings.title | escape }}"
+                   loading="lazy"
+                   width="{{ block.settings.image.width }}"
+                   height="{{ block.settings.image.height }}">
+            {%- else -%}
+              {%- comment -%} Syntax Fix: Building the class string with append to avoid nested curly braces {%- endcomment -%}
+              {%- assign placeholder_class = 'why-4-column-img-' | append: section.id -%}
+              {{ 'image' | placeholder_svg_tag: placeholder_class }}
+            {%- endif -%}
+          </div>
+          
+          <h4 class="why-4-column-heading-{{ section.id }}">{{ block.settings.title }}</h4>
+          <p class="why-4-column-des-{{ section.id }}">{{ block.settings.description }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Why Organic Coffee",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#075D57"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Main Heading Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color_alt",
+      "label": "Column Text Color",
+      "default": "#EAEAEA"
+    },
+    {
+      "type": "font_picker",
+      "id": "font_body",
+      "label": "Font Family",
+      "default": "raleway_n4"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Why 100,000 Coffee drinkers have switched to organicCoffee"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Feature Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Feature description text goes here."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Organic Coffee",
+      "blocks": [
+        {
+          "type": "column",
+          "settings": {
+            "title": "Top 1% Of The World’s Coffee",
+            "description": "Specialty Grade, Single Origin, And Hand-Picked At Peak Ripeness For The Highest Quality."
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "title": "A New Coffee Each Month",
+            "description": "These Coffees Aren’t On The Shelves, From Malawi To Myanmar, India To Ecuador, And More."
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "title": "Roasted Fresh To Order",
+            "description": "And Always Roasted To Your Preference. Maximum Freshness, Maximum Flavor."
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "title": "Delivered On Your Schedule",
+            "description": "Skip Or Change Your Delivery Date At Any Time, And Set A Schedule That Works For You."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

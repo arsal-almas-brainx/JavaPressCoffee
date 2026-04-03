@@ -11,201 +11,84 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
-    "footer_m9NzUG": {
-      "type": "footer",
-      "blocks": {
-        "group_H6VpwJ": {
-          "type": "group",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 6,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "text_LWt8Pz": {
-              "type": "text",
-              "settings": {
-                "text": "<h2>Join our email list</h2>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_f9CFLH": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Get exclusive deals and early access to new products.</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_LWt8Pz",
-            "text_f9CFLH"
-          ]
-        },
-        "email_signup_crihX7": {
-          "type": "email-signup",
-          "settings": {
-            "width": "fill",
-            "custom_width": 100,
-            "inherit_color_scheme": true,
-            "heading": "",
-            "heading_preset": "h3",
-            "color_scheme": "",
-            "border_style": "all",
-            "border_width": 1,
-            "border_radius": 100,
-            "input_type_preset": "paragraph",
-            "style_class": "button-unstyled",
-            "display_type": "arrow",
-            "label": "Sign up",
-            "integrated_button": true,
-            "button_type_preset": "paragraph",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "group_H6VpwJ",
-        "email_signup_crihX7"
-      ],
-      "name": "t:names.footer",
+    "newsletter_custom_anWEAc": {
+      "type": "newsletter-custom",
+      "name": "Newsletter Footer",
       "settings": {
-        "section_width": "page-width",
-        "gap": 20,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 30,
-        "padding-block-end": 30
+        "logo": "shopify://shop_images/beans.png",
+        "sub_heading": "NEWSLETTER SUBSCRIPTION",
+        "sub_heading_color": "#035D57",
+        "main_heading": "Join Our Newsletter And Get Updates On Promotions And Coupons.",
+        "main_heading_color": "#424242",
+        "discount_text_left": "Get",
+        "discount_highlight": "“$20 discount”",
+        "discount_text_right": "for your first order",
+        "placeholder": "Your Email Address",
+        "btn_text": "SUBSCRIBE NOW",
+        "btn_color": "#EF4444",
+        "font_body": "raleway_n4"
       }
     },
-    "footer_utilities_jLGE8U": {
-      "type": "footer-utilities",
+    "footer_custom_6hiTea": {
+      "type": "footer-custom",
       "blocks": {
-        "footer_copyright_jweRK8": {
-          "type": "footer-copyright",
+        "link_column_t8pq4z": {
+          "type": "link_column",
           "settings": {
-            "show_powered_by": true,
-            "font_size": "0.75rem",
-            "case": "none"
-          },
-          "blocks": {}
+            "title": "About",
+            "menu": "",
+            "link_1": "My Account",
+            "link_2": "Shipping",
+            "link_3": "Returns",
+            "link_4": "Beyond the Bean"
+          }
         },
-        "footer_policy_list_VCdnpa": {
-          "type": "footer-policy-list",
+        "link_column_xRAhFX": {
+          "type": "link_column",
           "settings": {
-            "font_size": "0.75rem",
-            "case": "none"
-          },
-          "blocks": {}
+            "title": "Company",
+            "menu": "",
+            "link_1": "FAQ's",
+            "link_2": "Warranty",
+            "link_3": "Privacy Statements",
+            "link_4": "Terms of Services"
+          }
         },
-        "social_links_Ew63Kq": {
-          "type": "social-links",
+        "link_column_fFEwkY": {
+          "type": "link_column",
           "settings": {
-            "facebook_url": "https://www.facebook.com/",
-            "instagram_url": "https://www.instagram.com/",
-            "youtube_url": "https://www.youtube.com/",
-            "tiktok_url": "https://www.tiktok.com/",
-            "twitter_url": "https://x.com/",
-            "threads_url": "",
-            "linkedin_url": "",
-            "bluesky_url": "",
-            "snapchat_url": "",
-            "pinterest_url": "",
-            "tumblr_url": "",
-            "vimeo_url": "",
-            "custom_url": ""
-          },
-          "blocks": {}
+            "title": "Contact",
+            "menu": "",
+            "link_1": "Contact Us",
+            "link_2": "Phone: (+971 1234 567)",
+            "link_3": "",
+            "link_4": ""
+          }
         }
       },
       "block_order": [
-        "footer_copyright_jweRK8",
-        "footer_policy_list_VCdnpa",
-        "social_links_Ew63Kq"
+        "link_column_t8pq4z",
+        "link_column_xRAhFX",
+        "link_column_fFEwkY"
       ],
-      "name": "t:names.utilities",
+      "name": "Custom Footer",
       "settings": {
-        "section_width": "page-width",
-        "gap": 24,
-        "divider_thickness": 0,
-        "color_scheme": "",
-        "padding-block-start": 20,
-        "padding-block-end": 48
+        "bg_color": "#075D57",
+        "text_color": "#FFFFFF",
+        "social_bg_color": "#003F3A",
+        "font_body": "raleway_n4",
+        "brand_name": "Organic Cafe",
+        "brand_desc": "Our journey into coffee started in 2015 with a passion for developing the best entry level burr coffee grinder on the market.",
+        "social_facebook_link": "",
+        "social_linkedin_link": "",
+        "social_twitter_link": "",
+        "rating_text": "4.9/5.00 (Serviced 6,000,000+ Coffee Lovers)",
+        "copyright_text": "Copyright © 2023 JavaPresse. All Rights Reserved"
       }
     }
   },
   "order": [
-    "footer_m9NzUG",
-    "footer_utilities_jLGE8U"
+    "newsletter_custom_anWEAc",
+    "footer_custom_6hiTea"
   ]
 }

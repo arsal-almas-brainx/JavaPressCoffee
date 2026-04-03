@@ -1,0 +1,369 @@
+{%- style -%}
+  {%- assign font_body = section.settings.font_body -%}
+  {{ font_body | font_face: font_display: 'swap' }}
+  {{ font_body | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+
+  .section-dynamic-product-{{ section.id }} {
+    font-family: {{ font_body.family }}, {{ font_body.fallback_families }};
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding-left: 8%;
+    padding-right: 8%;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    gap: 3%;
+  }
+
+  /* LEFT SIDE: MEDIA & SLIDER */
+  .featured-product-left-image-container-{{ section.id }} {
+    position: relative;
+    width: 110%; /* Matches your original CSS */
+  }
+  .main-image-wrapper-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1108 / 1170;
+    overflow: hidden;
+    border-radius: 1.4%;
+  }
+  .dynamic-main-img-{{ section.id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Nav Arrows on Main Image */
+  .nav-arrow-{{ section.id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.7);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 5;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .arrow-left-{{ section.id }} { left: 15px; }
+  .arrow-right-{{ section.id }} { right: 15px; }
+
+  /* Thumbnail Slider */
+  .thumb-slider-{{ section.id }} {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    overflow-x: auto;
+    width: 110%;
+    cursor: grab;
+    scrollbar-width: none;
+  }
+  .thumb-slider-{{ section.id }}::-webkit-scrollbar { display: none; }
+  .thumb-item-{{ section.id }} {
+    flex: 0 0 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0.6;
+  }
+  .thumb-item-{{ section.id }}.active { border-color: #424242; opacity: 1; }
+
+  /* RIGHT SIDE: EXACT CSS FROM YOUR FILE */
+  .featured-product-tags-container-{{ section.id }}{
+      display: grid;
+      grid-template-columns: 15% 15%; /* Adjusted slightly for labels */
+      gap: 1.5%;
+      margin-top: 2%;
+  }
+  .featured-product-tag-{{ section.id }} {
+      border-radius: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 400;
+      padding: 9px;
+  }
+  .featured-product-tag-1-{{ section.id }}{ background-color: #ECE03A; color: black; }
+  .featured-product-tag-2-{{ section.id }}{ background-color: #424242; color: white; }
+
+  .featured-product-card-h4-{{ section.id }}{
+      font-size: 23px;
+      font-weight: 600;
+      margin-top: 3%;
+      margin-bottom: 0;
+  }
+  .featured-product-rating-container-{{ section.id }}{
+      font-size: 12px;
+      margin-top: 2%;
+      margin-bottom: 3%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+  }
+  .star-{{ section.id }} { width: 11px; height: 11px; }
+
+  .product-card-price-container-{{ section.id }}{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: -2.2%;
+  }
+  .product-card-real-price-{{ section.id }}{
+      font-size: 23px;
+      font-weight: 700;
+      color: #EF4444;
+  }
+  .product-card-cut-price-{{ section.id }}{
+      font-size: 13px;
+      font-weight: 400;
+      color: #929292;
+      text-decoration: line-through;
+      margin-top: -4.2%;
+  }
+  .featured-card-description-{{ section.id }}{
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 200%;
+      color: #424242;
+      width: 88%;
+      margin-top: -2%;
+  }
+
+  /* DROPDOWNS */
+  .dropdown-container-right-3-{{ section.id }}{
+      display: grid;
+      grid-template-columns: 42% 55%;
+      gap: 4.5%;
+      margin-top: 5%;
+  }
+  .custom-dropdown-{{ section.id }} { position: relative; width: 100%; }
+  .dropdown-trigger-{{ section.id }} {
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      cursor: pointer;
+      background: #fff;
+      border: 1px solid #424242;
+      width: 100%;
+      border-radius: 4px;
+  }
+  .dropdown-list-{{ section.id }} {
+      display: none; position: absolute; top: 100%; left: 0; width: 100%;
+      background: #fff; border: 1px solid #ddd; z-index: 100; list-style: none; padding: 0;
+  }
+  .dropdown-list-{{ section.id }}.show { display: block; }
+  .dropdown-item-{{ section.id }} { padding: 10px 16px; cursor: pointer; font-size: 14px; color: #333; }
+
+  /* QTY & BUTTON */
+  .right-quantity-and-button-{{ section.id }}{
+      display: grid;
+      grid-template-columns: 28% 68%;
+      gap: 4.5%;
+      margin-top: 3%;
+  }
+  .quantity-picker-{{ section.id }} {
+      display: flex; align-items: center; border: 1px solid #424242; border-radius: 4px; overflow: hidden; height: 61%;
+  }
+  .qty-btn-{{ section.id }} { width: 33%; height: 100%; border: none; background: #F2F2F2; cursor: pointer; font-size: 20px; }
+  .qty-number-{{ section.id }} { flex-grow: 1; text-align: center; font-size: 19px; }
+
+  .right-block-3-button-{{ section.id }}{
+      width: 88.5%; color: white; background-color: #EF4444; font-size: 17px; font-weight: 700;
+      border: none; border-radius: 4px; padding: 3.5%; cursor: pointer;
+  }
+
+  .right-button-bottom-{{ section.id }} {
+      display: grid; grid-template-columns: auto auto auto; font-size: 10px; font-weight: 600; color: #075D57; margin-top: 2.5%;
+  }
+
+  /* ACCORDION */
+  .accordion-wrapper-{{ section.id }} { margin-top: 5%; border-top: 1px solid #EBEAE6; width: 88.5%; }
+  .accordion-item-{{ section.id }} { border-bottom: 1px solid #EBEAE6; }
+  .accordion-header-{{ section.id }} {
+      display: flex; justify-content: space-between; padding: 15px 0; cursor: pointer; font-weight: 600; align-items: center;
+  }
+  .accordion-content-{{ section.id }} { max-height: 0; overflow: hidden; transition: 0.3s ease; color: #666; font-size: 14px; }
+  .accordion-item-{{ section.id }}.active .accordion-content-{{ section.id }} { max-height: 200px; padding-bottom: 15px; }
+
+  .check-circle-{{ section.id }} {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 14px; height: 14px; background-color: #075D57; border-radius: 50%; margin-right: 5px;
+  }
+  .check-circle-{{ section.id }} svg { width: 8px; height: 8px; fill: white; }
+{%- endstyle -%}
+
+<div class="section-dynamic-product-{{ section.id }}">
+  <div class="featured-product-left-{{ section.id }}">
+    <div class="featured-product-left-image-container-{{ section.id }}">
+      <div class="main-image-wrapper-{{ section.id }}">
+        <button class="nav-arrow-{{ section.id }} arrow-left-{{ section.id }}" onclick="moveSlide(-1)">&lt;</button>
+        <img id="MainPhoto-{{ section.id }}" 
+             src="{{ product.featured_image | image_url: width: 1108 }}" 
+             width="1108" height="1170" 
+             class="dynamic-main-img-{{ section.id }}">
+        <button class="nav-arrow-{{ section.id }} arrow-right-{{ section.id }}" onclick="moveSlide(1)">&gt;</button>
+      </div>
+      
+      <div class="thumb-slider-{{ section.id }}" id="ThumbSlider-{{ section.id }}">
+        {% for image in product.images %}
+          <img src="{{ image | image_url: width: 200 }}" 
+               width="200" height="200"
+               class="thumb-item-{{ section.id }} {% if forloop.first %}active{% endif %}"
+               onclick="setMainImg(this.src, {{ forloop.index0 }})">
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="featured-product-right-{{ section.id }}">
+    <div class="featured-product-tags-container-{{ section.id }}">
+        <div class="featured-product-tag-{{ section.id }} featured-product-tag-1-{{ section.id }}">{{ section.settings.tag_1 }}</div>
+        <div class="featured-product-tag-{{ section.id }} featured-product-tag-2-{{ section.id }}">{{ section.settings.tag_2 }}</div>
+    </div>
+    
+    <div class="block-right-2-{{ section.id }}">
+        <h4 class="featured-product-card-h4-{{ section.id }}">{{ product.title }}</h4>
+        <div class="featured-product-rating-container-{{ section.id }}">
+            <div style="display:flex; gap:2px;">
+                {%- assign rating = product.metafields.custom.star_rating.value | default: 5.0 -%}
+                {% for i in (1..5) %}
+                  <svg class="star-{{ section.id }}" viewBox="0 0 24 24">
+                    <path fill="{% if rating >= i %}#DEB126{% else %}#EBEAE6{% endif %}" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                  </svg>
+                {% endfor %}
+            </div>
+            <p class="featured-product-rating-{{ section.id }}">
+              {{ rating }}/5.00 ( {{ product.metafields.custom.review_count.value | default: '171' }} Reviews )
+            </p>
+        </div>
+        <div class="product-card-price-container-{{ section.id }}">
+            <p class="product-card-real-price-{{ section.id }}">{{ product.price | money }}</p>
+            {% if product.compare_at_price > product.price %}
+              <p class="product-card-cut-price-{{ section.id }}">{{ product.compare_at_price | money }}</p>
+            {% endif %}
+        </div>
+        <div class="featured-card-description-{{ section.id }}">
+            {{ product.description }}
+        </div>
+    </div>
+
+    <div class="block-right-3-{{ section.id }}">
+        <div class="dropdown-container-right-3-{{ section.id }}">
+            <div class="dropdown-potency-{{ section.id }}">
+                <p class="right-dropdown-heading-{{ section.id }}">{{ section.settings.drop_1_label }}</p>
+                <div class="custom-dropdown-{{ section.id }}">
+                    <button class="dropdown-trigger-{{ section.id }}" onclick="toggleD('d1')">
+                        <span id="v1">{{ section.settings.drop_1_default }}</span>
+                        <svg width="12" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" fill="#424242"/></svg>
+                    </button>
+                    <ul id="d1" class="dropdown-list-{{ section.id }}">
+                        {% assign o1 = section.settings.drop_1_options | split: ',' %}
+                        {% for o in o1 %}<li class="dropdown-item-{{ section.id }}" onclick="setD('v1', '{{ o | strip }}', 'd1')">{{ o | strip }}</li>{% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown-flavour-{{ section.id }}">
+                <p class="right-dropdown-heading-{{ section.id }}">{{ section.settings.drop_2_label }}</p>
+                <div class="custom-dropdown-{{ section.id }}">
+                    <button class="dropdown-trigger-{{ section.id }}" onclick="toggleD('d2')">
+                        <span id="v2">{{ section.settings.drop_2_default }}</span>
+                        <svg width="12" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" fill="#424242"/></svg>
+                    </button>
+                    <ul id="d2" class="dropdown-list-{{ section.id }}">
+                        {% assign o2 = section.settings.drop_2_options | split: ',' %}
+                        {% for o in o2 %}<li class="dropdown-item-{{ section.id }}" onclick="setD('v2', '{{ o | strip }}', 'd2')">{{ o | strip }}</li>{% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-quantity-and-button-{{ section.id }}">
+            <p class="right-dropdown-heading-{{ section.id }}">Quantity:</p>
+            <div>
+                <div class="quantity-picker-{{ section.id }}">
+                    <button class="qty-btn-{{ section.id }}" onclick="upQty(-1)">−</button>
+                    <span class="qty-number-{{ section.id }}" id="q-{{ section.id }}">1</span>
+                    <button class="qty-btn-{{ section.id }}" onclick="upQty(1)">+</button>
+                </div>
+            </div>
+            <div class="right-button-{{ section.id }}">
+                <button class="right-block-3-button-{{ section.id }}">ADD TO CART</button>
+                <div class="right-button-bottom-{{ section.id }}">
+                    <p><span class="check-circle-{{ section.id }}"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>Secure Checkout</p>
+                    <p><span class="check-circle-{{ section.id }}"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>Satisfaction Guarantee</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-wrapper-{{ section.id }}">
+      {% for block in section.blocks %}
+        <div class="accordion-item-{{ section.id }}">
+          <div class="accordion-header-{{ section.id }}" onclick="this.parentElement.classList.toggle('active'); this.querySelector('.plus').innerText = this.parentElement.classList.contains('active') ? '×' : '+';">
+            <span>{{ block.settings.title }}</span>
+            <span class="plus" style="font-size: 20px;">+</span>
+          </div>
+          <div class="accordion-content-{{ section.id }}">{{ block.settings.content }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+  let cur = 0;
+  const imgs = [{% for image in product.images %}"{{ image | image_url: width: 1108 }}"{% unless forloop.last %},{% endunless %}{% endfor %}];
+  function setMainImg(s, i) {
+    document.getElementById('MainPhoto-{{ section.id }}').src = s;
+    cur = i;
+    document.querySelectorAll('.thumb-item-{{ section.id }}').forEach((t, idx) => t.classList.toggle('active', idx === i));
+  }
+  function moveSlide(d) { cur = (cur + d + imgs.length) % imgs.length; setMainImg(imgs[cur], cur); }
+
+  function toggleD(id) { document.getElementById(id).classList.toggle('show'); }
+  function setD(vid, txt, lid) { document.getElementById(vid).innerText = txt; toggleD(lid); }
+
+  let q = 1;
+  function upQty(n) { q = Math.max(1, q + n); document.getElementById('q-{{ section.id }}').innerText = q; }
+
+  // Drag Scroll for thumbnails
+  const sld = document.getElementById('ThumbSlider-{{ section.id }}');
+  let isD = false, sx, sl;
+  sld.addEventListener('mousedown', (e) => { isD = true; sx = e.pageX - sld.offsetLeft; sl = sld.scrollLeft; });
+  sld.addEventListener('mouseup', () => isD = false);
+  sld.addEventListener('mousemove', (e) => { if(!isD) return; const x = e.pageX - sld.offsetLeft; sld.scrollLeft = sl - (x - sx) * 2; });
+</script>
+
+{% schema %}
+{
+  "name": "Dynamic Coffee Detail",
+  "settings": [
+    { "type": "text", "id": "tag_1", "label": "Tag 1", "default": "Best Sellers" },
+    { "type": "text", "id": "tag_2", "label": "Tag 2", "default": "Staff Pick" },
+    { "type": "text", "id": "drop_1_label", "label": "Drop 1 Label", "default": "Potency:" },
+    { "type": "text", "id": "drop_1_default", "label": "Drop 1 Default", "default": "800mg" },
+    { "type": "text", "id": "drop_1_options", "label": "Drop 1 List", "default": "800mg, 1000mg" },
+    { "type": "text", "id": "drop_2_label", "label": "Drop 2 Label", "default": "Flavour:" },
+    { "type": "text", "id": "drop_2_default", "label": "Drop 2 Default", "default": "Chocolate" },
+    { "type": "text", "id": "drop_2_options", "label": "Drop 2 List", "default": "Chocolate, Vanilla" },
+    { "type": "font_picker", "id": "font_body", "label": "Body Font", "default": "raleway_n4" }
+  ],
+  "blocks": [
+    { "type": "accordion", "name": "Accordion Item", "settings": [
+      { "type": "text", "id": "title", "label": "Heading", "default": "Description" },
+      { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Add detail here</p>" }
+    ]}
+  ],
+  "presets": [{"name": "Dynamic Coffee Detail"}]
+}
+{% endschema %}
