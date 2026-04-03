@@ -1,0 +1,282 @@
+{%- style -%}
+  /* 1. LOAD FONT WEIGHTS FROM PICKER */
+  {{ section.settings.font_body | font_face: font_display: 'swap' }}
+
+  {%- comment -%} Load Light Weight (200) {%- endcomment -%}
+  {%- assign font_200 = section.settings.font_body | font_modify: 'weight', '200' -%}
+  {%- if font_200 -%}{{ font_200 | font_face: font_display: 'swap' }}{%- endif -%}
+
+  {%- comment -%} Load Book Weight (300) {%- endcomment -%}
+  {%- assign font_300 = section.settings.font_body | font_modify: 'weight', '300' -%}
+  {%- if font_300 -%}{{ font_300 | font_face: font_display: 'swap' }}{%- endif -%}
+
+  {%- comment -%} Load Medium Weight (500) {%- endcomment -%}
+  {%- assign font_500 = section.settings.font_body | font_modify: 'weight', '500' -%}
+  {%- if font_500 -%}{{ font_500 | font_face: font_display: 'swap' }}{%- endif -%}
+
+  {%- comment -%} Load Bold Weight (600+) {%- endcomment -%}
+  {%- assign font_600 = section.settings.font_body | font_modify: 'weight', '600' -%}
+  {%- if font_600 -%}
+    {{ font_600 | font_face: font_display: 'swap' }}
+  {%- else -%}
+    {%- assign font_bold = section.settings.font_body | font_modify: 'weight', 'bold' -%}
+    {%- if font_bold -%}{{ font_bold | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- endif -%}
+
+  /* 2. APPLY STYLES */
+  .section-footer-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    padding-left: 8%;
+    padding-right: 13%;
+    font-family: {{ section.settings.font_body.family }}, {{ section.settings.font_body.fallback_families }} !important;
+  }
+
+  .footer-template-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 6%;
+    border-bottom: 0.1px solid {{ section.settings.text_color | color_modify: 'alpha', 0.3 }};
+    padding-bottom: 40px;
+    padding-top: 6%;
+  }
+
+  .footer-left-main-heading-{{ section.id }} {
+    font-family: 'Comforter', cursive !important;
+    color: {{ section.settings.text_color }};
+    font-size: 31px;
+    margin-top: 4%;
+  }
+
+  .right-about-us-{{ section.id }} {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 2%;
+  }
+
+  .footer-col-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .footer-col-{{ section.id }} > * {
+    width: 100%;
+    display: block;
+  }
+
+  .footer-left-description-{{ section.id }} {
+    font-size: 15px;
+    color: {{ section.settings.text_color }};
+    font-weight: 500 !important;
+    margin-top: -3.5%;
+    line-height: 23px;
+    letter-spacing: 0.02em;
+  }
+
+  .right-about-subhead-{{ section.id }} {
+    font-size: 19px;
+    font-weight: 600 !important;
+    color: {{ section.settings.text_color }};
+    margin-bottom: 12%;
+  }
+
+  .right-about-links-{{ section.id }} {
+    font-size: 15px;
+    color: {{ section.settings.text_color }};
+    font-weight: 400 !important;
+    margin-bottom: 4%;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    margin-top: 3px;
+  }
+
+  .organic-cafe-social-media-{{ section.id }} {
+    width: 80%;
+  }
+
+  .social-media-logos-container-{{ section.id }} {
+    display: flex;
+    gap: 3%;
+    margin-top: -1%;
+  }
+
+  .social-box-{{ section.id }} {
+    width: 36px;
+    height: 36px;
+    background-color: {{ section.settings.social_bg_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .social-box-{{ section.id }} svg {
+    width: 18px;
+    height: 18px;
+    fill: {{ section.settings.text_color }};
+  }
+
+  .hero-rating-container-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 7%;
+    margin-bottom: 2%;
+  }
+
+  .star-group-{{ section.id }} {
+    display: flex;
+    gap: 2px;
+  }
+
+  .star-{{ section.id }} {
+    width: 9px;
+    height: 9px;
+    fill: #DEB126;
+  }
+
+  .hero-left-rating-{{ section.id }} {
+    font-size: 11px;
+    color: {{ section.settings.text_color }};
+    font-weight: 700 !important;
+    margin: 0;
+  }
+
+  .footer-copyrights-{{ section.id }} {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700 !important;
+    color: {{ section.settings.text_color }};
+    margin-top: 1%;
+    padding-top: 10px;
+    padding-bottom: 1.5%;
+    letter-spacing: 0.04em;
+    padding-left: 8%;
+  }
+
+  @media (max-width: 768px) {
+    .footer-template-{{ section.id }} {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    .right-about-us-{{ section.id }} {
+      grid-template-columns: 1fr;
+      text-align: left;
+    }
+    .organic-cafe-social-media-{{ section.id }} {
+      width: 100%;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-footer-{{ section.id }}">
+  <div class="footer-template-{{ section.id }}">
+    <div class="organic-cafe-social-media-{{ section.id }}">
+      <h3 class="footer-left-main-heading-{{ section.id }}">{{ section.settings.brand_name }}</h3>
+      <p class="footer-left-description-{{ section.id }}">{{ section.settings.brand_desc }}</p>
+
+      <div class="social-media-platform">
+        <div class="social-media-logos-container-{{ section.id }}">
+          <a href="{{ section.settings.social_facebook_link | default: '#' }}" class="social-box-{{ section.id }}">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 13.5H16.5L17.5 9.5H14V7.5C14 6.47 14 5.5 16 5.5H17.5V2.14C17.17 2.1 15.89 2 14.54 2C11.73 2 9.5 3.7 9.5 6.85V9.5H6.5V13.5H9.5V22H14V13.5Z" />
+            </svg>
+          </a>
+
+          <a href="{{ section.settings.social_linkedin_link | default: '#' }}" class="social-box-{{ section.id }}">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.5 21.5H2V9H6.5V21.5ZM4.25 7.15C2.81 7.15 1.65 5.98 1.65 4.54C1.65 3.1 2.81 1.93 4.25 1.93C5.69 1.93 6.85 3.1 6.85 4.54C6.85 5.98 5.69 7.15 4.25 7.15ZM22 21.5H17.5V14.39C17.5 12.7 16.89 11.54 15.38 11.54C14.22 11.54 13.53 12.32 13.23 13.07C13.12 13.34 13.09 13.71 13.09 14.09V21.5H8.59V9H13.09V10.77C13.72 9.8 14.85 8.44 17.31 8.44C20.24 8.44 22 10.36 22 14.46V21.5Z" />
+            </svg>
+          </a>
+
+          <a href="{{ section.settings.social_twitter_link | default: '#' }}" class="social-box-{{ section.id }}">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.237-1.594 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-rating-container-{{ section.id }}">
+        <div class="star-group-{{ section.id }}">
+          {% for i in (1..5) %}
+            <svg class="star-{{ section.id }}" viewBox="0 0 24 24">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+            </svg>
+          {% endfor %}
+        </div>
+        <p class="hero-left-rating-{{ section.id }}">{{ section.settings.rating_text }}</p>
+      </div>
+    </div>
+
+    <div class="right-about-us-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        <div class="footer-col-{{ section.id }}" {{ block.shopify_attributes }}>
+          <h3 class="right-about-subhead-{{ section.id }}">{{ block.settings.title }}</h3>
+          {%- if block.settings.menu != blank -%}
+            {%- for link in block.settings.menu.links -%}
+              <a href="{{ link.url }}" class="right-about-links-{{ section.id }}">{{ link.label }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <p class="right-about-links-{{ section.id }}">{{ block.settings.link_1 }}</p>
+            <p class="right-about-links-{{ section.id }}">{{ block.settings.link_2 }}</p>
+            <p class="right-about-links-{{ section.id }}">{{ block.settings.link_3 }}</p>
+            <p class="right-about-links-{{ section.id }}">{{ block.settings.link_4 }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class="footer-copyrights-{{ section.id }}">
+    {{ section.settings.copyright_text }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Footer",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#075D57" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#FFFFFF" },
+    { "type": "color", "id": "social_bg_color", "label": "Social Box Background", "default": "#003F3A" },
+    { "type": "font_picker", "id": "font_body", "label": "Font Family", "default": "raleway_n4" },
+    { "type": "header", "content": "Left Content" },
+    { "type": "text", "id": "brand_name", "label": "Brand Name", "default": "Organic Cafe" },
+    { "type": "textarea", "id": "brand_desc", "label": "Brand Description", "default": "Our journey into coffee started in 2015 with a passion for developing the best entry level burr coffee grinder on the market." },
+    { "type": "url", "id": "social_facebook_link", "label": "Facebook Link" },
+    { "type": "url", "id": "social_linkedin_link", "label": "LinkedIn Link" },
+    { "type": "url", "id": "social_twitter_link", "label": "Twitter Link" },
+    { "type": "text", "id": "rating_text", "label": "Rating Text", "default": "4.9/5.00 (Serviced 6,000,000+ Coffee Lovers)" },
+    { "type": "text", "id": "copyright_text", "label": "Copyright Text", "default": "Copyright © 2023 JavaPresse. All Rights Reserved" }
+  ],
+  "blocks": [
+    {
+      "type": "link_column",
+      "name": "Link Column",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Heading", "default": "Menu" },
+        { "type": "link_list", "id": "menu", "label": "Select Menu (Optional)" },
+        { "type": "header", "content": "Manual Links (If no menu selected)" },
+        { "type": "text", "id": "link_1", "label": "Link 1" },
+        { "type": "text", "id": "link_2", "label": "Link 2" },
+        { "type": "text", "id": "link_3", "label": "Link 3" },
+        { "type": "text", "id": "link_4", "label": "Link 4" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Footer",
+      "blocks": [
+        { "type": "link_column", "settings": { "title": "About", "link_1": "My Account", "link_2": "Shipping", "link_3": "Returns", "link_4": "Beyond the Bean" } },
+        { "type": "link_column", "settings": { "title": "Company", "link_1": "FAQ's", "link_2": "Warranty", "link_3": "Privacy Statements", "link_4": "Terms of Services" } },
+        { "type": "link_column", "settings": { "title": "Contact", "link_1": "Contact Us", "link_2": "Phone: (+971 1234 567)" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

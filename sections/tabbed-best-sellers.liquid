@@ -1,4 +1,5 @@
 {%- style -%}
+  /* ... (Existing CSS - No changes made here) ... */
   {{ section.settings.font_heading | font_face }}
   {{ section.settings.font_body | font_face }}
 
@@ -83,11 +84,13 @@
     display: none;
   }
 
+  /* ADDED cursor:pointer to indicate clickability */
   .try-our-product-{{ section.id }} {
     flex: 0 0 calc(25% - 15px);
     min-width: calc(25% - 15px);
     display: flex;
     flex-direction: column;
+    cursor: pointer; 
   }
 
   .image-container-{{ section.id }} {
@@ -210,7 +213,7 @@
         <div class="product-slider-wrapper-{{ section.id }}" id="slider-{{ block.id }}">
           {% if current_collection != blank and current_collection.products_count > 0 %}
             {% for product in current_collection.products %}
-              <div class="try-our-product-{{ section.id }}">
+              <div class="try-our-product-{{ section.id }} js-clickable-card" data-url="{{ product.url }}">
                 <div class="image-container-{{ section.id }}">
                   {%- assign img_class = 'try-our-product-card-image-' | append: section.id -%}
                   {{ product.featured_image | image_url: width: 600 | image_tag:
@@ -228,7 +231,6 @@
                       {%- assign diff = product_rating | minus: i | plus: 1 -%}
                       <svg class="star-{{ section.id }}" viewBox="0 0 24 24">
                         <defs>
-                          {%- comment -%} Using a unique ID for each gradient so they don't overwrite each other {%- endcomment -%}
                           <linearGradient id="star-grad-{{ section.id }}-{{ block.id }}-{{ product.id }}-{{ i }}">
                             <stop offset="{% if diff >= 1 %}100%{% elsif diff > 0 %}{{ diff | times: 100 }}%{% else %}0%{% endif %}" stop-color="#EF4444" />
                             <stop offset="{% if diff >= 1 %}100%{% elsif diff > 0 %}{{ diff | times: 100 }}%{% else %}0%{% endif %}" stop-color="#EBEAE6" />
@@ -275,6 +277,8 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const sId = '{{ section.id }}';
+    
+    // Existing Tab Logic
     const btns = document.querySelectorAll('.tab-btn-' + sId);
     const panes = document.querySelectorAll('.tab-pane-' + sId);
     btns.forEach((btn) => {
@@ -283,6 +287,18 @@
         panes.forEach((p) => p.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+      });
+    });
+
+    // NEW Redirect Logic
+    const cards = document.querySelectorAll('.js-clickable-card');
+    cards.forEach(card => {
+      card.addEventListener('click', function(e) {
+        // Prevent redirect if clicking the "Add to Cart" button or stars
+        if (!e.target.closest('button') && !e.target.closest('form')) {
+          const url = this.getAttribute('data-url');
+          if (url) window.location.href = url;
+        }
       });
     });
   });
