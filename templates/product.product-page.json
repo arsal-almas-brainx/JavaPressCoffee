@@ -1,13 +1,121 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "custom_placeholder": {
       "type": "custom-liquid",
       "settings": {
-        "custom_liquid": ""
+        "custom_liquid": "",
+        "color_scheme": "",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "dynamic_product_page_wMri6C": {
+      "type": "dynamic-product-page",
+      "blocks": {
+        "accordion_QrPtEN": {
+          "type": "accordion",
+          "settings": {
+            "title": "About Product:",
+            "content": "The Manual Coffee Grinder by JavaPresse Coffee Company was built with a professional grade ceramic conical burr to heighten flavors of the most exquisite coffees in the world. It was born out of pure necessity, to provide an incredibly consistent grind for a variety of brews while making as little noise as possible. Combined with an impeccable stainless steel frame and convenient size, this grinder is at the pinnacle of travel gadgets. Who said you can’t have it all?"
+          }
+        },
+        "accordion_NiAtP8": {
+          "type": "accordion",
+          "settings": {
+            "title": "Ingredients:",
+            "content": "Enter description here..."
+          }
+        }
+      },
+      "block_order": [
+        "accordion_QrPtEN",
+        "accordion_NiAtP8"
+      ],
+      "name": "Dynamic Product Detail",
+      "settings": {
+        "font_body": "raleway_n4",
+        "drop_1_label": "Potency:",
+        "drop_1_default": "800mg",
+        "drop_1_options": "800mg, 1000mg, 600mg",
+        "drop_2_label": "Flavour:",
+        "drop_2_default": "Chocolate",
+        "drop_2_options": "Chocolate, Vanilla, Caramel"
+      }
+    },
+    "why_organic_coffee_izqzMR": {
+      "type": "why-organic-coffee",
+      "blocks": {
+        "column_Uaf6xV": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/coloum-1-img.png",
+            "title": "Top 1% Of The World’s Coffee",
+            "description": "Specialty Grade, Single Origin, And Hand-Picked At Peak Ripeness For The Highest Quality."
+          }
+        },
+        "column_G9CLch": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/coloum-2-img.png",
+            "title": "A New Coffee Each Month",
+            "description": "These Coffees Aren’t On The Shelves, From Malawi To Myanmar, India To Ecuador, And More."
+          }
+        },
+        "column_gqW6fm": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/coloum-3-img.png",
+            "title": "Roasted Fresh To Order",
+            "description": "And Always Roasted To Your Preference. Maximum Freshness, Maximum Flavor."
+          }
+        },
+        "column_XxbkdL": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/cooloum-4-img.png",
+            "title": "Delivered On Your Schedule",
+            "description": "Skip Or Change Your Delivery Date At Any Time, And Set A Schedule That Works For You."
+          }
+        }
+      },
+      "block_order": [
+        "column_Uaf6xV",
+        "column_G9CLch",
+        "column_gqW6fm",
+        "column_XxbkdL"
+      ],
+      "name": "Why Organic Coffee",
+      "settings": {
+        "bg_color": "#075D57",
+        "text_color": "#FFFFFF",
+        "text_color_alt": "#EAEAEA",
+        "font_body": "raleway_n4",
+        "heading": "Why 100,000 Coffee drinkers have switched to organicCoffee"
+      }
+    },
+    "static_related_products_n8LdAM": {
+      "type": "static-related-products",
+      "name": "Related Products Static",
+      "settings": {
+        "title": "Recommended For You",
+        "font_body": "raleway_n4"
       }
     }
   },
   "order": [
-    "custom_placeholder"
+    "custom_placeholder",
+    "dynamic_product_page_wMri6C",
+    "why_organic_coffee_izqzMR",
+    "static_related_products_n8LdAM"
   ]
 }

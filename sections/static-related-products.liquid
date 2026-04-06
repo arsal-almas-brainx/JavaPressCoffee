@@ -1,0 +1,252 @@
+{%- style -%}
+  .section-static-related-{{ section.id }} {
+    font-family: {{ section.settings.font_body.family }}, {{ section.settings.font_body.fallback_families }};
+    padding: 60px 8%;
+    background-color: #E3E3E3;
+  }
+
+  .related-best-h4-{{ section.id }} {
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 700 !important;
+    margin-bottom: 40px;
+    text-align: center;
+    color: #424242;
+  }
+
+  .product-grid-static-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3%;
+    width: 100%;
+  }
+
+  .related-product-card-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .related-image-container-{{ section.id }} {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+  }
+
+  .related-product-image-{{ section.id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .related-product-title-{{ section.id }} {
+    font-size: 18px;
+    font-weight: 700 !important;
+    margin: 15px 0 5px 0;
+    color: #424242;
+    line-height: 125%;
+  }
+
+  /* Star and Review Container Styles */
+  .related-review-row-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .related-star-group-{{ section.id }} {
+    display: flex;
+    gap: 0;
+  }
+
+  .star-{{ section.id }} {
+    width: 14px;
+    height: 14px;
+    fill: #EF4444;
+  }
+
+  .related-review-count-{{ section.id }} {
+    font-weight: 700;
+    font-size: 13px;
+    margin: 0;
+    color: #000;
+  }
+
+  /* Price Container Styles */
+  .related-price-container-{{ section.id }} {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+    margin-top: auto;
+  }
+
+  .related-real-price-{{ section.id }} {
+    font-size: 19px;
+    font-weight: 700 !important;
+    color: #000;
+    margin: 0;
+  }
+
+  .related-compare-price-{{ section.id }} {
+    text-decoration: line-through;
+    color: #929292;
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .related-add-btn-{{ section.id }} {
+    width: 100%;
+    font-family: inherit;
+    font-weight: 800 !important;
+    padding: 12px;
+    color: #FFF;
+    background-color: #EF4444;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    height: 50px;
+    font-size: 18px;
+  }
+
+  .related-add-btn-{{ section.id }}:hover {
+    opacity: 0.9;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .product-grid-static-{{ section.id }} { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media screen and (max-width: 600px) {
+    .product-grid-static-{{ section.id }} { grid-template-columns: 1fr; }
+    .section-static-related-{{ section.id }} { padding: 40px 20px; }
+  }
+{%- endstyle -%}
+
+<div class="section-static-related-{{ section.id }}">
+  <h4 class="related-best-h4-{{ section.id }}">{{ section.settings.title }}</h4>
+
+  <div class="product-grid-static-{{ section.id }}">
+    {%- assign related_collection = product.collections.first -%}
+    {%- assign max_products = 4 -%}
+    {%- assign current_count = 0 -%}
+
+    {% if related_collection %}
+      {% for prod in related_collection.products %}
+        {% if prod.handle != product.handle and current_count < max_products %}
+          <div class="related-product-card-{{ section.id }} js-related-card" data-url="{{ prod.url }}">
+            <div class="related-image-container-{{ section.id }}">
+              <img
+                class="related-product-image-{{ section.id }}"
+                src="{{ prod.featured_image | image_url: width: 600 }}"
+                alt="{{ prod.title | escape }}"
+                loading="lazy"
+                width="{{ prod.featured_image.width }}"
+                height="{{ prod.featured_image.height }}"
+              >
+            </div>
+
+            <h4 class="related-product-title-{{ section.id }}">{{ prod.title }}</h4>
+
+            <div class="related-review-row-{{ section.id }}">
+              <div class="related-star-group-{{ section.id }}">
+                {% for i in (1..5) %}
+                  <svg class="star-{{ section.id }}" viewBox="0 0 24 24">
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                  </svg>
+                {% endfor %}
+              </div>
+              <p class="related-review-count-{{ section.id }}">
+                ( <u>{{ prod.metafields.custom.review_count.value | default: '1171' }} Reviews</u> )
+              </p>
+            </div>
+
+            <div class="related-price-container-{{ section.id }}">
+              <p class="related-real-price-{{ section.id }}">{{ prod.price | money }}</p>
+              {% if prod.compare_at_price > prod.price %}
+                <p class="related-compare-price-{{ section.id }}">
+                  {{ prod.compare_at_price | money }}
+                </p>
+              {% endif %}
+            </div>
+
+            <form method="post" action="/cart/add" class="js-related-form">
+              <input type="hidden" name="id" value="{{ prod.variants.first.id }}">
+              <button type="submit" class="related-add-btn-{{ section.id }}">ADD TO CART</button>
+            </form>
+          </div>
+          {%- assign current_count = current_count | plus: 1 -%}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const cards = document.querySelectorAll('.js-related-card');
+
+    cards.forEach((card) => {
+      card.addEventListener('click', function (e) {
+        if (!e.target.closest('button') && !e.target.closest('form')) {
+          window.location.href = this.getAttribute('data-url');
+        }
+      });
+
+      const form = card.querySelector('.js-related-form');
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+
+          const btn = this.querySelector('button');
+          btn.innerText = 'ADDING...';
+          btn.disabled = true;
+
+          let formData = new FormData(this);
+
+          fetch(window.Shopify.routes.root + 'cart/add.js', {
+            method: 'POST',
+            body: formData,
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              btn.innerText = 'ADDED!';
+              if (typeof refreshCartDrawer === 'function') {
+                refreshCartDrawer(false); 
+              }
+              setTimeout(() => {
+                btn.innerText = 'ADD TO CART';
+                btn.disabled = false;
+              }, 2000);
+            })
+            .catch((err) => {
+              console.error(err);
+              btn.innerText = 'TRY AGAIN';
+              btn.disabled = false;
+            });
+        });
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Related Products Static",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Section Title", "default": "Recommended For You" },
+    { "type": "font_picker", "id": "font_body", "label": "Body Font", "default": "raleway_n4" }
+  ],
+  "presets": [{ "name": "Related Products Static" }]
+}
+{% endschema %}
