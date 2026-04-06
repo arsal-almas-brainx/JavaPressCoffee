@@ -1,0 +1,30 @@
+{%- if paginate.parts.size > 0 -%}
+  <nav class="pagination-wrapper">
+    <ul class="pagination-list">
+      {%- if paginate.previous -%}
+        <li><a href="{{ paginate.previous.url }}" class="pagination-item"><div class="triangle-left"></div></a></li>
+      {%- endif -%}
+      {%- for part in paginate.parts -%}
+        <li>
+          {%- if part.is_link -%}
+            <a href="{{ part.url }}" class="pagination-item">{{ part.title }}</a>
+          {%- else -%}
+            <span class="pagination-item {% if part.title == paginate.current_page %}active{% endif %}">{{ part.title }}</span>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+      {%- if paginate.next -%}
+        <li><a href="{{ paginate.next.url }}" class="pagination-item"><div class="triangle-right"></div></a></li>
+      {%- endif -%}
+    </ul>
+  </nav>
+{%- endif -%}
+
+<style>
+  .pagination-wrapper { display: flex; justify-content: center; margin: 40px 0; }
+  .pagination-list { display: flex; list-style: none; gap: 8px; padding: 0; }
+  .pagination-item { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1px solid #E3E3E3; text-decoration: none; color: #000; font-weight: 700; border-radius: 4px; }
+  .pagination-item.active { background: #EF4444; color: #FFF; border-color: #EF4444; }
+  .triangle-left { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-right: 6px solid #000; }
+  .triangle-right { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 6px solid #000; }
+</style>

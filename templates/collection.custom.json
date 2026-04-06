@@ -1,0 +1,15 @@
+{
+  "name": "Custom Collection",
+  "sections": {
+    "main": {
+      "type": "custom-main-collection",
+      "blocks": {
+        "filters": { "type": "filter_bar" },
+        "grid": { "type": "product_grid" }
+      },
+      "block_order": ["filters", "grid"],
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

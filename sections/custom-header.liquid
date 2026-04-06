@@ -43,15 +43,33 @@
       font-weight: 500;
       font-size: 16px;
       position: relative;
-      transition: transform 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
+      display: inline-block;
+      padding-bottom: 10px;
     }
-    .header-grid__menu a:hover { transform: scale(1.02); color: #EF4444; font-weight: 700; }
+    .header-grid__menu a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) scale(0); /* Centered and shrunk to 0 */
+      width: 6px;
+      height: 6px;
+      background-color: #EF4444; 
+      border-radius: 50%;
+      transition: transform 0.2s ease-in-out;
+      pointer-events: none; /* Prevents the dot from interfering with clicks */
+    }
+    .header-grid__menu a:hover { transform: scale(1.01); color: #EF4444; font-weight: 700; }
 
     /* CART ICON & BUBBLE */
     .header-grid__cart {
       grid-column: 4;
       justify-self: center;
       position: relative;
+    }
+    .header-grid__menu a:hover::after {
+      transform: translateX(-50%) scale(1); /* Grows the dot to full size */
     }
     .header-grid__cart a { display: block; text-decoration: none; color: #EF4444; transition: transform 0.2s; }
     .header-grid__cart a:hover { transform: scale(1.1); }

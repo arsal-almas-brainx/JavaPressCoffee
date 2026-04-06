@@ -1,0 +1,102 @@
+<div class="collection-wrapper">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      
+      {%- when 'collection_heading' -%}
+        <div class="custom-collection-header" 
+             style="text-align: {{ block.settings.heading_align }}; margin-bottom: {{ block.settings.margin_bottom }}px; margin-top: {{ block.settings.margin_top }}px;">
+          <h1 class="custom-collection-title">{{ block.settings.title | default: collection.title }}</h1>
+        </div>
+
+      {%- when 'filter_bar' -%}
+        {% render 'custom-filter-bar', results: collection, sectionId: section.id %}
+      
+      {%- when 'product_grid' -%}
+        <div class="product-grid" id="ProductGridContainer">
+          {% paginate collection.products by 12 %}
+            <div class="product-grid-layout">
+              {% for product in collection.products %}
+                {%- capture empty_children -%}{%- endcapture -%}
+                {% render 'product-card', 
+                  product: product, 
+                  children: empty_children 
+                %}
+              {% endfor %}
+            </div>
+            {% render 'pagination', paginate: paginate %}
+          {% endpaginate %}
+        </div>
+
+    {%- endcase -%}
+  {%- endfor -%}
+</div>
+
+<style>
+  /* 1. Import Raleway with all necessary weights */
+  @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap');
+
+  .collection-wrapper { 
+    max-width: 1400px; 
+    margin: 0 auto; 
+    padding: 0 20px;
+    font-family: 'Raleway', sans-serif; /* Fallback for the whole section */
+  }
+  
+  /* 2. Explicitly apply to the Heading Block */
+  .custom-collection-title {
+    font-family: 'Raleway', sans-serif !important;
+    font-size: 32px;
+    font-weight: 700;
+    color: #424242;
+    margin: 0;
+    line-height: 1.1;
+    padding-left: 4%;
+  }
+
+  .product-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+  }
+
+  @media (max-width: 990px) { 
+    .product-grid-layout { grid-template-columns: repeat(2, 1fr); } 
+    .custom-collection-title { font-size: 32px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Custom Collection",
+  "blocks": [
+    {
+      "type": "collection_heading",
+      "name": "Main Heading",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Heading Text (Leave blank for Collection Title)" },
+        { "type": "select", "id": "heading_align", "label": "Alignment", "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" }
+          ], "default": "left" 
+        },
+        { "type": "range", "id": "margin_top", "min": 0, "max": 100, "step": 5, "unit": "px", "label": "Top Spacing", "default": 40 },
+        { "type": "range", "id": "margin_bottom", "min": 0, "max": 60, "step": 5, "unit": "px", "label": "Bottom Spacing", "default": 20 }
+      ]
+    },
+    { "type": "filter_bar", "name": "JavaPress Filter Bar", "limit": 1 },
+    { "type": "product_grid", "name": "Product Grid", "limit": 1 }
+  ],
+  "presets": [
+    { 
+      "name": "Custom Collection", 
+      "blocks": [
+        { "type": "collection_heading" },
+        { "type": "filter_bar" }, 
+        { "type": "product_grid" }
+      ] 
+    }
+  ]
+}
+{% endschema %}
