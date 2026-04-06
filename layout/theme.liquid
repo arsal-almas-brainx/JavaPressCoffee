@@ -14,7 +14,6 @@
       >
     {%- endif -%}
 
-    {% comment %} This a way to wait for main content to load when navigating to a new page so that the view transitions can work consistently {% endcomment %}
     {% if settings.transition_to_main_product or settings.page_transition_enabled %}
       <link
         rel="expect"
@@ -40,28 +39,19 @@
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+
     <div id="header-group">
       {% sections 'header-group' %}
     </div>
 
     <script>
-      // Inline header height and menu style calculations to prevent layout shift
-      // Note: Updates in calculateHeaderGroupHeight(), updateTransparentHeaderOffset() and setHeaderMenuStyle() utilities.js should be kept in sync with this function
       (function setHeaderHeighCustomProperties() {
-        /*
-         * Header calculation functions for maintaining CSS variables
-         * Mimic calculateHeaderGroupHeight() in utilities.js
-         */
         const header = document.querySelector('header-component');
         const headerGroup = document.querySelector('#header-group');
         const hasHeaderSection = headerGroup?.querySelector('.header-section');
-
         if (!header || !headerGroup) return;
-
         const headerTopRow = header.querySelector('.header__row--top');
         const headerHeight = header.offsetHeight;
-
-        // Calculate the total height of the header group
         let headerGroupHeight = 0;
         const children = headerGroup.children;
         for (let i = 0; i < children.length; i++) {
@@ -69,34 +59,21 @@
           if (element === header || !(element instanceof HTMLElement)) continue;
           headerGroupHeight += element.offsetHeight;
         }
-
-        // Check for transparent header special case
         if (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling) {
           headerGroupHeight += headerHeight;
         }
-
-        // Set CSS variables
         document.body.style.setProperty('--header-height', `${headerHeight}px`);
         document.body.style.setProperty('--header-group-height', `${headerGroupHeight}px`);
-
         if (headerTopRow) {
           window.requestAnimationFrame(function () {
             document.body.style.setProperty('--top-row-height', `${headerTopRow.offsetHeight}px`);
           });
         }
-
-        /**
-         * Updates CSS custom properties for transparent header offset calculation
-         * Mimic updateTransparentHeaderOffset() in utilities.js
-         */
-
         if (!hasHeaderSection || !header?.hasAttribute('transparent')) {
           document.body.style.setProperty('--transparent-header-offset-boolean', '0');
           return;
         }
-
         const hasImmediateSection = hasHeaderSection.nextElementSibling?.classList.contains('shopify-section');
-
         const shouldApplyOffset = !hasImmediateSection ? '1' : '0';
         document.body.style.setProperty('--transparent-header-offset-boolean', shouldApplyOffset);
       })();
@@ -132,5 +109,66 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+    {% comment %} --- CUSTOM CART DRAWER SECTION --- {% endcomment %}
+    {% section 'custom-cart-drawer' %}
+
+    {% comment %} --- CART LOGIC SCRIPT --- {% endcomment %}
+    <script>
+      // 1. Refresh Drawer Content using Section Rendering API
+      function refreshCartDrawer(open = true) {
+        fetch(window.location.pathname + '?section_id=custom-cart-drawer')
+          .then((response) => response.text())
+          .then((html) => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            document.querySelector('#CartDrawer').innerHTML = doc.querySelector('#CartDrawer').innerHTML;
+
+            if (open) {
+              document.querySelector('#CartDrawer').classList.add('active');
+              document.querySelector('#CartOverlay').classList.add('active');
+            }
+
+            // IMPORTANT: re-init scripts after DOM replace
+            if (typeof initCartDrawer === 'function') {
+              initCartDrawer();
+            }
+          });
+      }
+
+      // 2. Quantity Change Logic
+      function changeQty(key, newQty) {
+        const body = JSON.stringify({
+          id: key,
+          quantity: newQty,
+        });
+
+        fetch('/cart/change.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: body,
+        })
+          .then((res) => res.json())
+          .then(() => refreshCartDrawer())
+          .catch((e) => console.error('Error updating quantity:', e));
+      }
+
+      // 3. Toggle Handlers (Event Delegation)
+      document.addEventListener('click', (e) => {
+        // Open Drawer (Targets your header cart icon - ensure it has this ID or Class)
+        if (e.target.closest('#CartDrawerTrigger') || e.target.closest('.toggler')) {
+          e.preventDefault();
+          document.querySelector('#CartDrawer').classList.add('active');
+          document.querySelector('#CartOverlay').classList.add('active');
+        }
+
+        // Close Drawer
+        if (e.target.id === 'CloseDrawerBtn' || e.target.id === 'CartOverlay') {
+          document.querySelector('#CartDrawer').classList.remove('active');
+          document.querySelector('#CartOverlay').classList.remove('active');
+        }
+      });
+    </script>
   </body>
 </html>

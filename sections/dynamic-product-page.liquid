@@ -2,6 +2,14 @@
   /* Font Face Loading */
   {{ section.settings.font_body | font_face: font_display: 'swap' }}
   
+  {%- assign font_300 = section.settings.font_body | font_modify: 'weight', '300' -%}
+  {%- assign font_500 = section.settings.font_body | font_modify: 'weight', '500' -%}
+  {%- assign font_600 = section.settings.font_body | font_modify: 'weight', '600' -%}
+
+  {%- if font_300 -%}{{ font_300 | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if font_500 -%}{{ font_500 | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if font_600 -%}{{ font_600 | font_face: font_display: 'swap' }}{%- endif -%}
+
   .section-featured-product-{{ section.id }} {
       font-family: {{ section.settings.font_body.family }}, {{ section.settings.font_body.fallback_families }};
       display: grid;
@@ -332,7 +340,7 @@
                     </div>
                 </div>
                 <div class="right-button">
-                    <button class="right-block-3-button" type="button">ADD TO CART</button>
+                    <button class="right-block-3-button" id="AddToCart-{{ section.id }}" type="button">ADD TO CART</button>
                     <div class="right-button-bottom">
                         <p><span class="check-circle"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>Secure Checkout</p>
                         <p><span class="check-circle"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>Secure Shipping</p>
@@ -424,6 +432,54 @@ document.addEventListener("DOMContentLoaded", () => {
     section.querySelectorAll('.accordion-header').forEach(header => {
         header.addEventListener('click', () => {
             header.parentElement.classList.toggle('active');
+        });
+    });
+
+    // 5. AJAX ADD TO CART (SILENT)
+    const addToCartBtn = section.querySelector('#AddToCart-{{ section.id }}');
+
+    addToCartBtn.addEventListener('click', (e) => {
+        e.preventDefault();                        
+        e.stopImmediatePropagation();
+        addToCartBtn.innerText = "ADDING...";
+        
+        const potency = section.querySelector('.dropdown-potency .dropdown-trigger span').innerText;
+        const flavour = section.querySelector('.dropdown-flavour .dropdown-trigger span').innerText;
+        const quantity = parseInt(section.querySelector('.qty-number').innerText);
+
+        let formData = {
+            'items': [{
+                'id': {{ product.selected_or_first_available_variant.id | default: product.variants[0].id }},
+                'quantity': quantity,
+                'properties': {
+                    'Potency': potency,
+                    'Flavour': flavour
+                }
+            }]
+        };
+
+        fetch(window.Shopify.routes.root + 'cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Failed');
+            return response.json();
+        })
+        .then(data => {
+            addToCartBtn.innerText = "ADDED!";
+            
+            // Just refresh the background data and cart bubble, DO NOT open drawer
+            if (typeof refreshCartDrawer === 'function') {
+                refreshCartDrawer(false); // We tell our function NOT to open the UI
+            }
+            
+            setTimeout(() => { addToCartBtn.innerText = "ADD TO CART"; }, 2000);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            addToCartBtn.innerText = "ERROR - TRY AGAIN";
         });
     });
 

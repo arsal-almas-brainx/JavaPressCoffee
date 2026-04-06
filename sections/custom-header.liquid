@@ -53,8 +53,9 @@
       justify-self: center;
       position: relative;
     }
-    .header-grid__cart a { display: block; text-decoration: none; color: #EF4444; }
-    .header-grid__cart svg { width: 28px; height: 28px; stroke-width: 2; }
+    .header-grid__cart a { display: block; text-decoration: none; color: #EF4444; transition: transform 0.2s; }
+    .header-grid__cart a:hover { transform: scale(1.1); }
+    .header-grid__cart svg { width: 28px; height: 28px; stroke-width: 2; display: block; }
 
     .cart-count-bubble {
       position: absolute;
@@ -70,6 +71,14 @@
       align-items: center;
       justify-content: center;
       font-weight: 700;
+      line-height: 1;
+      display: none;
+    }
+    
+    /* Hide bubble if empty */
+    .cart-count-bubble:empty,
+    .cart-count-bubble[data-count="0"] {
+       display: none;
     }
 
     .header-grid__btn {
@@ -84,21 +93,25 @@
       font-size: 16px;
       font-family: 'Raleway', sans-serif;
       margin-right: 20%;
+      transition: opacity 0.2s;
     }
+    .header-grid__btn:hover { opacity: 0.9; }
 
     @media screen and (max-width: 768px) {
       .custom-grid-header { grid-template-columns: 1fr 1fr; }
-      .header-grid__menu-wrapper, .header-grid__cart { display: none; }
-      .header-grid__btn { grid-column: 2; }
+      .header-grid__menu-wrapper { display: none; }
+      .header-grid__cart { grid-column: initial; justify-self: end; padding-right: 15px; display: block !important; }
+      .header-grid__btn { grid-column: 2; margin-right: 0; font-size: 12px; }
     }
 {%- endstyle -%}
 
 <div class="custom-header-container">
   <header class="custom-grid-header">
     <div class="header-grid__logo">
-      <a href="/">
+      <a href="{{ routes.root_url }}">
         {% if section.settings.logo != blank %}
-          {{ section.settings.logo | image_url: width: 300 | image_tag: loading: 'lazy' }}
+          {%- assign logo_alt = section.settings.logo.alt | default: shop.name | escape -%}
+          {{ section.settings.logo | image_url: width: 300 | image_tag: loading: 'lazy', alt: logo_alt }}
         {% else %}
           <span class="logo-text-custom">{{ section.settings.logo_text | default: shop.name }}</span>
         {% endif %}
@@ -117,17 +130,22 @@
     </nav>
 
     <div class="header-grid__cart">
+      {% comment %} 
+        The ID "CartDrawerTrigger" is used by the script in theme.liquid to open the drawer 
+      {% endcomment %}
       <a href="{{ routes.cart_url }}" id="CartDrawerTrigger">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M3 6H22L19 16H6L3 6ZM3 6L2.25 3.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M11 19.5C11 20.3284 10.3284 21 9.5 21C8.67157 21 8 20.3284 8 19.5C8 18.6716 8.67157 18 9.5 18C10.3284 18 11 18.6716 11 19.5Z" fill="currentColor"/>
           <path d="M17 19.5C17 20.3284 16.3284 21 15.5 21C14.6716 21 14 20.3284 14 19.5C14 18.6716 14.6716 18 15.5 18C16.3284 18 17 18.6716 17 19.5Z" fill="currentColor"/>
         </svg>
-        <span class="cart-count-bubble" id="CartCount">{{ cart.item_count }}</span>
+        <span class="cart-count-bubble" id="CartCount" data-count="{{ cart.item_count }}">
+          {%- if cart.item_count > 0 -%}{{ cart.item_count }}{%- endif -%}
+        </span>
       </a>
     </div>
 
-    <a href="{{ section.settings.btn_link }}" class="header-grid__btn">
+    <a href="{{ section.settings.btn_link | default: '#' }}" class="header-grid__btn">
       {{ section.settings.btn_text }} →
     </a>
   </header>

@@ -1,0 +1,304 @@
+{%- style -%}
+  /* 1. DYNAMIC FONT LOADING */
+  {{ section.settings.font_body | font_face: font_display: 'swap' }}
+  
+  {%- assign font_300 = section.settings.font_body | font_modify: 'weight', '300' -%}
+  {%- assign font_500 = section.settings.font_body | font_modify: 'weight', '500' -%}
+  {%- assign font_600 = section.settings.font_body | font_modify: 'weight', '600' -%}
+
+  {%- if font_300 -%}{{ font_300 | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if font_500 -%}{{ font_500 | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if font_600 -%}{{ font_600 | font_face: font_display: 'swap' }}{%- endif -%}
+
+  .section-cart, .cart-container, .calendar-modal {
+      font-family: {{ section.settings.font_body.family }}, {{ section.settings.font_body.fallback_families }} !important;
+  }
+
+  /* 2. OVERLAY & PANEL */
+  .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1000; }
+  .overlay.active { opacity: 1; visibility: visible; }
+
+  .section-cart { position: fixed; top: 0; right: -400px; height: 100vh; width: 100%; max-width: 375px; transition: right 0.3s ease; z-index: 1100; }
+  .section-cart.active { right: 0; }
+
+  .cart-container { height: 100vh; background: #fff; box-shadow: -2px 0 10px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow: hidden; position: relative; }
+
+  /* 3. HEADER */
+  .cart-header { display: grid; grid-template-columns: 90% 10%; align-items: center; border-bottom: 1px dashed #E5E4E4; flex-shrink: 0; }
+  .cart-header-left { text-align: center; padding-left: 10%; }
+  .cart-header-left h3 { font-size: 16px; font-weight: 700; margin-bottom: 0; margin-top: 8px; }
+  .total-product-count { font-size: 12px; font-weight: 400; margin-top: 6px; }
+  .cart-close-button { cursor: pointer; font-size: 22px; border: none; background: none; }
+
+  /* 4. BODY & PRODUCTS */
+  .body-cart { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; }
+  .product-wrapper { margin-top: 6%; border-bottom: 1px dashed #E5E4E4; flex: 1; }
+  
+  .product-card-cart { display: grid; grid-template-columns: 34.5% auto; gap: 2%; padding: 0 6% 8% 6%; }
+  .product-card-cart-img-wrapper { width: 110px; height: 110px; }
+  .product-card-cart-img { width: 100%; height: 100%; border-radius: 6px; object-fit: cover; }
+  
+  .product-card-cart-center-headingandprice { font-size: 14px; color: #424242; display: flex; justify-content: space-between; line-height: 15px; margin-bottom: 8px; }
+  .product-card-cart-center-heading { margin: 0; font-weight: 600; flex: 1; padding-right: 5px; font-size: 14px }
+  .product-card-cart-center-total-price { margin: 0; font-weight: 600; font-size:14px }
+  
+  .product-card-cart-center-price, .product-card-cart-center-flavour, .product-card-cart-center-potency { font-size: 13px; font-weight: 400; margin: 0 0 8px 0; color: #424242; }
+
+  /* COUNTER */
+  .counter { display: flex; align-items: center; justify-content: space-between; border: 1px solid #424242; border-radius: 4px; width: 79%; height: 52px; overflow: hidden; }
+  .counter-btn { width: 48px; height: 100%; border: none; background: #F2F2F2; cursor: pointer; font-size: 24px; font-weight: 100; }
+  .counter-value { font-size: 18px; font-weight: 500; }
+  .delete-btn { border: none; background: none; cursor: pointer; padding: 0; margin-top: 10px; }
+
+  .estimated-total-des,
+  .estimated-total-price-total{margin: 0; font-size: 18px; font-weight: 700;}
+  /* 5. FOOTER */
+  .footer-cart { padding: 15px 6% 6px 6%; flex-shrink: 0; }
+  .choose-delivery-date { margin: 0; font-size: 12px; font-weight: 500; }
+  .footer-calender { display: flex; align-items: center; justify-content: space-between; background-color: #EFEFEF; padding: 0 5%; color: #424242; margin-top: 4px; border-radius: 4px; height: 45px; }
+  .footer-calender button { background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; }
+  .dd-mm-yy { font-size: 15px; font-weight: 500; margin: 0; }
+
+  .estimated-total { display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: 700; margin: 10px 0; }
+  .cart-checkout-button { height: 50px; border: none; background-color: #EF4444; color: #FFFF; font-size: 16px; font-weight: 800; width: 100%; cursor: pointer; border-radius: 6px; }
+  .footer-tax-text { font-size: 12px; font-weight: 500; color: #424242; text-align: center; margin-top: 6px; }
+
+  /* 6. CALENDAR MODAL (Your Design) */
+  .calendar-modal { position: absolute; bottom: -100%; left: 0; width: 100%; background: #fff; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; border-top-left-radius: 15px; border-top-right-radius: 15px;     font-family: 'Inter', sans-serif !important; }
+  .calendar-modal.active { bottom: 0; }
+  .calendar-content { padding: 4% 6%; }
+  .calendar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #F4F4F5; margin-bottom: 10px; padding-bottom: 10px; }
+  #prevMonth, #nextMonth { border: 1px solid #E4E6E7; height: 40px; width: 40px; background: #fff; border-radius: 4px; cursor: pointer; }
+  #monthDisplay { font-size: 16px; font-weight: 600; margin: 0; }
+  .calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: 600; font-size: 13px; color: #71717A; margin-bottom: 10px; }
+  .calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+  .calendar-days span { display: flex; align-items: center; justify-content: center; height: 42px; cursor: pointer; font-size: 14px; border-radius: 50%; font-weight: 500; color: #3F3F46; }
+  .calendar-days span.past-date { opacity: 0.3; pointer-events: none; }
+  .calendar-days span.selected { background: #EF4444 !important; color: white; }
+  .calendar-footer { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #F4F4F5; padding-top: 15px; }
+  .selected-date-preview { width: 45%; height: 36px; border: 1px solid #DFE1E7; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 13px; font-weight: 500; }
+  .set-date-btn { background: #EF4949; color: white; border: none; border-radius: 6px; height: 36px; width: 45%; font-weight: 500; cursor: pointer; }
+{%- endstyle -%}
+
+<div class="overlay" id="CartOverlay"></div>
+
+<div class="section-cart" id="CartDrawer">
+    <div class="cart-container" id="CartDrawerContent">
+        <div class="cart-header">
+            <div class="cart-header-left">
+                <h3>Cart</h3>
+                <p class="total-product-count">{{ cart.item_count }} products</p>
+            </div>
+            <div class="cart-close-button-container">
+                <button class="cart-close-button" id="CloseDrawerBtn">X</button>
+            </div>
+        </div>
+
+        <div class="body-cart">
+            <div class="product-wrapper">
+                {% for item in cart.items %}
+                <div class="product-card-cart">
+                    <div class="product-card-cart-img-wrapper">
+                        <img class="product-card-cart-img" src="{{ item.image | image_url: width: 220 }}" alt="{{ item.product.title }}" width="110" height="110">
+                    </div>
+                    <div class="product-card-cart-center">
+                        <div class="product-card-cart-center-headingandprice">
+                            <h4 class="product-card-cart-center-heading">{{ item.product.title | truncate: 45 }}</h4>
+                            <h4 class="product-card-cart-center-total-price">{{ item.final_line_price | money }}</h4>
+                        </div>
+                        <h5 class="product-card-cart-center-price">{{ item.variant.price | money }}</h5>
+                        <h5 class="product-card-cart-center-flavour">Flavour: {{ item.properties['Flavour'] | default: 'Standard' }}</h5>
+                        <h5 class="product-card-cart-center-potency">Potency: {{ item.properties['Potency'] | default: 'Standard' }}</h5>
+
+                        <div class="product-card-cart-actions">
+                            <div class="counter">
+                                <button class="counter-btn" onclick="updateCartItem('{{ item.key }}', {{ item.quantity | minus: 1 }})">−</button>
+                                <span class="counter-value">{{ item.quantity }}</span>
+                                <button class="counter-btn" onclick="updateCartItem('{{ item.key }}', {{ item.quantity | plus: 1 }})">+</button>
+                            </div>
+                            <button class="delete-btn" onclick="updateCartItem('{{ item.key }}', 0)">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#424242"><path d="M280-280h80v-400h-80v400Zm160 0h80v-400h-80v400ZM200-120q-33 0-56.5-23.5T120-200v-520h-40v-80h200v-40h320v40h200v80h-40v520q0 33-23.5 56.5T680-120H200Zm480-600H200v520h480v-520Zm-480 0v520-520Z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="footer-cart">
+            <p class="choose-delivery-date">Choose Delivery Date:</p>
+            <div class="footer-calender">
+                <p class="dd-mm-yy" id="MainDateDisplay">dd / mm / yyyy</p>
+                <button type="button" id="OpenCalendar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                </button>
+            </div>
+            <div class="estimated-total">
+                <h5 class="estimated-total-des">Estimated Total:</h5>
+                <h5 class="estimated-total-price-total">{{ cart.total_price | money }}</h5>
+            </div>
+            <form action="{{ routes.cart_url }}" method="post">
+                <button type="submit" name="checkout" class="cart-checkout-button">Checkout</button>
+            </form>
+            <p class="footer-tax-text">Taxes, discounts and shipping calculated at checkout</p>
+
+            <div class="calendar-modal" id="calendarModal">
+                <div class="calendar-content">
+                    <div class="calendar-header">
+                        <button type="button" id="prevMonth">&lt;</button>
+                        <h4 id="monthDisplay">Month Year</h4>
+                        <button type="button" id="nextMonth">&gt;</button>
+                    </div>
+                    <div class="calendar-weekdays">
+                        <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+                    </div>
+                    <div class="calendar-days" id="calendarDays"></div>
+                    <div class="calendar-footer">
+                        <div class="selected-date-preview">
+                            <span id="previewDate">None</span>
+                        </div>
+                        <button type="button" id="setDateBtn" class="set-date-btn">Set Date</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentCalDate = new Date();
+let selectedCalDate = null;
+
+// --- 1. DRAWER UTILS ---
+const openCart = () => {
+    document.getElementById('CartDrawer').classList.add('active');
+    document.getElementById('CartOverlay').classList.add('active');
+};
+const closeCart = () => {
+    document.getElementById('CartDrawer').classList.remove('active');
+    document.getElementById('CartOverlay').classList.remove('active');
+    document.getElementById('calendarModal').classList.remove('active');
+};
+
+document.getElementById('CloseDrawerBtn').addEventListener('click', closeCart);
+document.getElementById('CartOverlay').addEventListener('click', closeCart);
+
+// --- 2. AJAX REFRESH ---
+function refreshCartDrawer(open = false) {
+    fetch(window.location.href)
+        .then(res => res.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            document.getElementById('CartDrawerContent').innerHTML = doc.getElementById('CartDrawerContent').innerHTML;
+            initCalendarLogic(); // Re-bind calendar after HTML replace
+            if(open) openCart();
+        });
+}
+
+function updateCartItem(key, qty) {
+    fetch(window.Shopify.routes.root + 'cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: key, quantity: qty })
+    }).then(() => refreshCartDrawer(false));
+}
+
+// --- 3. CALENDAR LOGIC (Your JS integrated) ---
+function initCalendarLogic() {
+    const calendarModal = document.getElementById('calendarModal');
+    const calendarBtn = document.getElementById('OpenCalendar');
+    const setDateBtn = document.getElementById('setDateBtn');
+
+    if (calendarBtn) {
+        calendarBtn.onclick = (e) => {
+            e.preventDefault();
+            calendarModal.classList.toggle('active');
+            renderCalendar();
+        };
+    }
+
+    if (setDateBtn) {
+        setDateBtn.onclick = () => {
+            if (selectedCalDate) {
+                document.getElementById('MainDateDisplay').innerText = formatWithSpaces(selectedCalDate);
+                calendarModal.classList.remove('active');
+            }
+        };
+    }
+
+    document.getElementById('prevMonth').onclick = () => {
+        currentCalDate.setMonth(currentCalDate.getMonth() - 1);
+        renderCalendar();
+    };
+    document.getElementById('nextMonth').onclick = () => {
+        currentCalDate.setMonth(currentCalDate.getMonth() + 1);
+        renderCalendar();
+    };
+}
+
+function renderCalendar() {
+    const calendarDays = document.getElementById('calendarDays');
+    const monthDisplay = document.getElementById('monthDisplay');
+    const previewDate = document.getElementById('previewDate');
+    
+    calendarDays.innerHTML = '';
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    const year = currentCalDate.getFullYear();
+    const month = currentCalDate.getMonth();
+    
+    monthDisplay.innerText = new Intl.DateTimeFormat('en-US', { month: 'long'}).format(currentCalDate);
+
+    let firstDay = new Date(year, month, 1).getDay() - 1; 
+    if (firstDay === -1) firstDay = 6; 
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+        const span = document.createElement('span');
+        span.classList.add('empty');
+        calendarDays.appendChild(span);
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const span = document.createElement('span');
+        span.innerText = day;
+        const dateToCheck = new Date(year, month, day);
+
+        if (dateToCheck < today) span.classList.add('past-date');
+        if (selectedCalDate && selectedCalDate.toDateString() === dateToCheck.toDateString()) {
+            span.classList.add('selected');
+        }
+
+        span.onclick = () => {
+            if (!span.classList.contains('past-date')) {
+                document.querySelectorAll('.calendar-days span').forEach(s => s.classList.remove('selected'));
+                span.classList.add('selected');
+                selectedCalDate = new Date(year, month, day);
+                previewDate.innerText = formatWithSpaces(selectedCalDate);
+            }
+        };
+        calendarDays.appendChild(span);
+    }
+}
+
+function formatWithSpaces(date) {
+    const d = String(date.getDate()).padStart(2, '0');
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const y = date.getFullYear();
+    return `${d} / ${m} / ${y}`;
+}
+
+document.addEventListener('DOMContentLoaded', initCalendarLogic);
+</script>
+
+{% schema %}
+{
+  "name": "Custom Cart Drawer",
+  "settings": [
+    { "type": "font_picker", "id": "font_body", "label": "Font Family", "default": "raleway_n4" }
+  ]
+}
+{% endschema %}
