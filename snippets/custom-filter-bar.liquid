@@ -1,5 +1,16 @@
-<facets-form-component data-section-id="{{ sectionId }}">
+{% comment %} 
+  CHANGED: Using 'facet-filters-form' which is the standard Shopify JS hook.
+  This allows the filter to update the #ProductGridContainer without a page refresh.
+{% endcomment %}
+ <facet-filters-form class="facets" data-section-id="{{ sectionId }}">
   <form id="FacetFiltersForm" class="jp-filter-bar">
+    
+    {%- comment -%} Essential for maintaining search terms during filtering {%- endcomment -%}
+    {%- if results.terms -%}
+      <input type="hidden" name="q" value="{{ results.terms | escape }}">
+      <input type="hidden" name="options[prefix]" value="last">
+    {%- endif -%}
+
     <div class="jp-filter-left">
       <span class="jp-label">Filter:</span>
       {%- for filter in results.filters -%}
@@ -8,6 +19,15 @@
             {{ filter.label }} <div class="triangle-down"></div>
           </summary>
           <div class="jp-filter-dropdown-content">
+            
+            {%- comment -%} Added 'Clear' link for better UX {%- endcomment -%}
+            <div class="facet-header" style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 12px; color: #929292;">{{ filter.active_values.size }} selected</span>
+              <facet-remove>
+                <a href="{{ filter.url_to_remove }}" style="font-size: 12px; color: #EF4444; text-decoration: underline;">Reset</a>
+              </facet-remove>
+            </div>
+
             {%- case filter.type -%}
               {%- when 'price_range' -%}
                 {% render 'price-filter', filter: filter, id_prefix: 'jp', filter_style: 'horizontal' %}
@@ -30,7 +50,7 @@
       <div class="jp-sort-group">
         <span class="jp-label">Sort By:</span>
         <div class="jp-sort-box">
-          <select name="sort_by" id="SortBy">
+          <select name="sort_by" id="SortBy" aria-describedby="a11y-refresh-page-message">
             {%- for option in results.sort_options -%}
               <option value="{{ option.value }}" {% if option.value == results.sort_by %}selected{% endif %}>{{ option.name }}</option>
             {%- endfor -%}
@@ -38,10 +58,16 @@
           <div class="triangle-down"></div>
         </div>
       </div>
-      <div class="jp-label">{{ results.products_count }} Products</div>
+      <div id="ProductCount" class="jp-label">
+        {%- if results.results_count -%}
+          {{ results.results_count }} Products
+        {%- else -%}
+          {{ results.products_count }} Products
+        {%- endif -%}
+      </div>
     </div>
   </form>
-</facets-form-component>
+</facet-filters-form>
 
 <style>
   /* 1. Import Font */
@@ -60,7 +86,7 @@
   .jp-filter-bar { 
     display: flex; 
     justify-content: space-between; 
-    padding: 12px 5%; 
+    padding: 12px 1%; 
     border-radius: 4px; 
     align-items: center; 
     position: relative; 
@@ -114,7 +140,7 @@
     padding: 20px; 
     z-index: 100; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-    min-width: 200px; 
+    min-width: 250px; 
     font-family: 'Raleway', sans-serif;
   }
 
