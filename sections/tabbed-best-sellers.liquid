@@ -1,5 +1,4 @@
 {%- style -%}
-  /* ... (Existing CSS - No changes made here) ... */
   {{ section.settings.font_heading | font_face }}
   {{ section.settings.font_body | font_face }}
 
@@ -84,18 +83,16 @@
     display: none;
   }
 
-  /* ADDED cursor:pointer to indicate clickability */
   .try-our-product-{{ section.id }} {
     flex: 0 0 calc(25% - 15px);
     min-width: calc(25% - 15px);
     display: flex;
     flex-direction: column;
-    cursor: pointer; 
   }
 
   .image-container-{{ section.id }} {
     width: 100%;
-    aspect-ratio: 1 / 1; 
+    aspect-ratio: 1 / 1;
     position: relative;
     overflow: hidden;
     border-radius: 4px;
@@ -106,7 +103,7 @@
     width: 100%;
     height: 100%;
     display: block;
-    object-fit: cover; 
+    object-fit: cover;
     object-position: center;
   }
 
@@ -132,7 +129,7 @@
   .product-card-real-price-{{ section.id }} {
     font-size: 19px;
     font-weight: 700 !important;
-    color: #000;
+    color: #424242;
     margin: 0;
   }
 
@@ -181,15 +178,58 @@
   .nav-btn-right-{{ section.id }} { transform: translateX(-210%) translateY(-90%); }
   .nav-btn-left-{{ section.id }} { transform: translateX(210%) translateY(-90%); }
 
-  @media screen and (max-width: 1024px) {
+  /* New Dot Pagination Styles */
+  .dots-container-{{ section.id }} {
+    display: none;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .dot-{{ section.id }} {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #B9B9B9;
+    transition: background-color 0.3s;
+  }
+
+  .dot-{{ section.id }}.active {
+    background-color: #000000;
+  }
+
+  @media screen and (max-width: 992px) {
     .try-our-product-{{ section.id }} { flex: 0 0 calc(50% - 10px); min-width: calc(50% - 10px); }
   }
 
-  @media screen and (max-width: 600px) {
-    .try-our-product-{{ section.id }} { flex: 0 0 85%; min-width: 85%; }
-    .tab-buttons-{{ section.id }} { gap: 25px; overflow-x: auto; justify-content: flex-start; padding: 0 20px; }
-    .slider-nav-{{ section.id }} { display: none; }
+  @media screen and (max-width: 767px) {
+    .try-our-product-{{ section.id }} { 
+      flex: 0 0 calc(50% - 10px); 
+      min-width: calc(50% - 10px); 
+    }
+    .tab-pane-{{ section.id }} { padding: 0 20px; }
+    .tab-buttons-{{ section.id }} { gap: 25px; overflow-x: auto; justify-content: flex-start; }
     .tab-header-wrapper-{{ section.id }} { justify-content: flex-start; }
+    
+    /* Show nav buttons and adjust position for mobile cards */
+    .slider-nav-{{ section.id }} { 
+      display: flex; 
+      top: 30%;
+      left: 5px;
+      right: 5px;
+      width: calc(100% - 10px);
+    }
+    .nav-btn-{{ section.id }} { width: 30px; height: 30px; }
+    .nav-btn-right-{{ section.id }} { transform: translateY(-130%) translateX(-13px); }
+    .nav-btn-left-{{ section.id }} { transform: translateY(-130%) translateX(13px); }
+
+    /* Show dots on mobile only */
+    .dots-container-{{ section.id }} { display: flex; }
+    .try-out-product-card-h4-{{ section.id }} {font-size: 16px;}
+    .try-our-card-rating-{{ section.id }} {font-size: 12px;}
+    .star-{{ section.id }} {width: 10px; height: 10px;}
+    .product-card-real-price-{{ section.id }} {font-size: 16px;}
+    .product-card-button-{{ section.id }} {font-size: 16px; font-weight: 800;}
   }
 {%- endstyle -%}
 
@@ -199,7 +239,10 @@
   <div class="tab-header-wrapper-{{ section.id }}">
     <div class="tab-buttons-{{ section.id }}">
       {% for block in section.blocks %}
-        <button class="tab-btn-{{ section.id }} {% if forloop.first %}active{% endif %}" data-target="tab-{{ block.id }}">
+        <button
+          class="tab-btn-{{ section.id }} {% if forloop.first %}active{% endif %}"
+          data-target="tab-{{ block.id }}"
+        >
           {{ block.settings.tab_title }}
         </button>
       {% endfor %}
@@ -213,13 +256,10 @@
         <div class="product-slider-wrapper-{{ section.id }}" id="slider-{{ block.id }}">
           {% if current_collection != blank and current_collection.products_count > 0 %}
             {% for product in current_collection.products %}
-              <div class="try-our-product-{{ section.id }} js-clickable-card" data-url="{{ product.url }}">
+              <div class="try-our-product-{{ section.id }}">
                 <div class="image-container-{{ section.id }}">
                   {%- assign img_class = 'try-our-product-card-image-' | append: section.id -%}
-                  {{ product.featured_image | image_url: width: 600 | image_tag:
-                      class: img_class,
-                      loading: 'lazy'
-                  }}
+                  {{ product.featured_image | image_url: width: 600 | image_tag: class: img_class, loading: 'lazy' }}
                 </div>
 
                 <h4 class="try-out-product-card-h4-{{ section.id }}">{{ product.title }}</h4>
@@ -248,7 +288,9 @@
                 <div style="display:flex; gap:10px; align-items:center; margin-top: auto;">
                   <p class="product-card-real-price-{{ section.id }}">{{ product.price | money }}</p>
                   {% if product.compare_at_price > product.price %}
-                    <p style="text-decoration:line-through; color:#929292; font-size:13px; font-weight:400;">{{ product.compare_at_price | money }}</p>
+                    <p style="text-decoration:line-through; color:#929292; font-size:13px; font-weight:400; margin-top:4px;">
+                      {{ product.compare_at_price | money }}
+                    </p>
                   {% endif %}
                 </div>
 
@@ -263,11 +305,27 @@
           {% endif %}
         </div>
 
-        {% if current_collection.products_count > 4 %}
+        {% if current_collection.products_count > 0 %}
           <div class="slider-nav-{{ section.id }}">
-            <button class="nav-btn-left-{{ section.id }} nav-btn-{{ section.id }}" onclick="slideProducts('slider-{{ block.id }}', -1) ">&lt;</button>
-            <button class="nav-btn-right-{{ section.id }} nav-btn-{{ section.id }}" onclick="slideProducts('slider-{{ block.id }}', 1)">&gt;</button>
+            <button
+              class="nav-btn-left-{{ section.id }} nav-btn-{{ section.id }}"
+              onclick="slideProducts('slider-{{ block.id }}', -1) "
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <button
+              class="nav-btn-right-{{ section.id }} nav-btn-{{ section.id }}"
+              onclick="slideProducts('slider-{{ block.id }}', 1)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
           </div>
+          
+          <div class="dots-container-{{ section.id }}" id="dots-{{ block.id }}"></div>
         {% endif %}
       </div>
     {% endfor %}
@@ -277,35 +335,71 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const sId = '{{ section.id }}';
-    
-    // Existing Tab Logic
     const btns = document.querySelectorAll('.tab-btn-' + sId);
     const panes = document.querySelectorAll('.tab-pane-' + sId);
+
     btns.forEach((btn) => {
       btn.addEventListener('click', () => {
         btns.forEach((b) => b.classList.remove('active'));
         panes.forEach((p) => p.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+        const target = document.getElementById(btn.getAttribute('data-target'));
+        target.classList.add('active');
+        
+        // Refresh dots when tab changes
+        const slider = target.querySelector('.product-slider-wrapper-' + sId);
+        if(slider) updateDots(slider.id);
       });
     });
 
-    // NEW Redirect Logic
-    const cards = document.querySelectorAll('.js-clickable-card');
-    cards.forEach(card => {
-      card.addEventListener('click', function(e) {
-        // Prevent redirect if clicking the "Add to Cart" button or stars
-        if (!e.target.closest('button') && !e.target.closest('form')) {
-          const url = this.getAttribute('data-url');
-          if (url) window.location.href = url;
-        }
-      });
+    // Initialize dots for each slider
+    document.querySelectorAll('.product-slider-wrapper-' + sId).forEach(slider => {
+      initDots(slider.id);
+      slider.addEventListener('scroll', () => updateDots(slider.id));
     });
   });
 
+  function initDots(sliderId) {
+    const slider = document.getElementById(sliderId);
+    const blockId = sliderId.replace('slider-', '');
+    const dotsContainer = document.getElementById('dots-' + blockId);
+    if (!dotsContainer) return;
+
+    const products = slider.querySelectorAll('.try-our-product-{{ section.id }}');
+    // Since mobile shows 2 cards, we calculate groups of 2
+    const dotsCount = Math.ceil(products.length / 2);
+
+    dotsContainer.innerHTML = '';
+    for (let i = 0; i < dotsCount; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot-{{ section.id }}' + (i === 0 ? ' active' : '');
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function updateDots(sliderId) {
+    const slider = document.getElementById(sliderId);
+    const blockId = sliderId.replace('slider-', '');
+    const dotsContainer = document.getElementById('dots-' + blockId);
+    if (!dotsContainer || !slider) return;
+
+    const scrollPercentage = slider.scrollLeft / (slider.scrollWidth - slider.clientWidth || 1);
+    const dots = dotsContainer.querySelectorAll('.dot-{{ section.id }}');
+    if (dots.length === 0) return;
+    
+    const activeIndex = Math.min(Math.round(scrollPercentage * (dots.length - 1)), dots.length - 1);
+
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === activeIndex);
+    });
+  }
+
   function slideProducts(id, direction) {
     const container = document.getElementById(id);
-    const scrollAmount = container.offsetWidth;
+    const isMobile = window.innerWidth <= 600;
+    // On mobile, scroll by roughly one card width (50% of container)
+    // On desktop, scroll by full container width
+    const scrollAmount = isMobile ? container.offsetWidth / 2 : container.offsetWidth;
     container.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
   }
 </script>

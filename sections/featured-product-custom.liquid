@@ -55,6 +55,7 @@
       font-weight: 600;
       margin-top: 3%;
       margin-bottom: 0;
+      color: #424242;
   }
   .featured-product-rating-container-{{ section.id }}{
       font-size: 12px;
@@ -256,6 +257,19 @@
       height: 10px;
       fill: #ffffff;
   }
+  @media screen and (max-width: 767px){
+    .section-featured-product-{{ section.id }} {grid-template-columns: 1fr; padding-left: 5%; padding-right: 5%;}
+    .featured-product-tags-container-{{ section.id }} {grid-template-columns: 16% 16%; margin-top: -20px;}
+    .dropdown-container-right-3-{{ section.id }} {grid-template-columns: 1fr;}
+    .dropdown-flavour-{{ section.id }} .dropdown-trigger-{{ section.id }} {width: 100%;}
+    .featured-card-description-{{ section.id }} {width: 95%;}
+    .right-quantity-and-button-{{ section.id }} {grid-template-columns: 1fr; gap: 0;}
+    .right-button-bottom-{{ section.id }} {margin-bottom: 7rem; font-size: 11px; margin-right: 0;}
+    .dropdown-flavour-{{ section.id }} {margin-top: 2%; margin-bottom: 4%;}
+    .right-dropdown-heading-{{ section.id }} {margin-bottom: 3%;}
+    .quantity-picker-container-{{ section.id }}{height: 85px; margin-top: -5.5%;}
+    .right-block-3-button-{{ section.id }} {width: 100%;}
+  }
 {%- endstyle -%}
 
 <div class="section-featured-product-{{ section.id }}">
@@ -342,8 +356,7 @@
 
             <div class="right-quantity-and-button-{{ section.id }}">
                 <p class="right-dropdown-heading-{{ section.id }}">Quantity:</p><br>
-                <div>
-                    
+                <div class="quantity-picker-container-{{ section.id }}">
                     <div class="quantity-picker-{{ section.id }}">
                         <button type="button" class="qty-btn-{{ section.id }}" id="minus-{{ section.id }}">−</button>
                         <span class="qty-number-{{ section.id }}" id="qty-val-{{ section.id }}">1</span>
