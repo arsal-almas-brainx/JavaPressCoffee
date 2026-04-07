@@ -47,7 +47,7 @@
   }
 
   .discount-line-{{ section.id }}{
-      font-weight: 300;
+      font-weight: 400;
       font-size: 16px;
       margin-top: 0;
       color: #424242;
@@ -124,13 +124,21 @@
       cursor: pointer;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .join-our-{{ section.id }}, .email-container-{{ section.id }} {
       width: 90%;
+      font-size: 24px;
+      font-weight: 700;
     }
     .btn-sub-container-{{ section.id }} {
       width: 45%;
     }
+    .newsletter-logo-{{ section.id }} {width: 27px;}
+    .btn-sub-{{ section.id }} {width: 130px; margin-left: 2rem; font-size: 14px; font-weight: 700; gap: 4px;}
+    .input-icon-{{ section.id }} {left: 15px;}
+    .email-sub-{{ section.id }} {padding-left: 45px !important;}
+    .section-newsletter-{{ section.id }} {padding-top: 35px; padding-bottom: 80px;}
+
   }
 {%- endstyle -%}
 
@@ -181,7 +189,7 @@
           </div>
           
           <div class="btn-sub-container-{{ section.id }}">
-              <button type="submit" class="btn-sub-{{ section.id }}">
+              <button id="rmv-scnd-word" type="submit" class="btn-sub-{{ section.id }}">
                   {{ section.settings.btn_text }}
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M3 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -192,6 +200,19 @@
       </form>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.innerWidth <= 767) {
+      const btn = document.getElementById('rmv-scnd-word');
+      if (btn) {
+        const words = btn.textContent.trim().split(' ');
+        if (words.length > 1) {
+          btn.childNodes[0].textContent = words[0] + ' ';
+        }
+      }
+    }
+  });
+</script>
 
 {% schema %}
 {

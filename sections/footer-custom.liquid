@@ -43,7 +43,7 @@
   .footer-left-main-heading-{{ section.id }} {
     font-family: 'Comforter', cursive !important;
     color: {{ section.settings.text_color }};
-    font-size: 31px;
+    font-size: 32px;
     margin-top: 4%;
   }
 
@@ -156,18 +156,25 @@
     padding-left: 8%;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .footer-template-{{ section.id }} {
       grid-template-columns: 1fr;
-      gap: 30px;
+      gap: 45px;
+      padding-bottom: 23%;
+      padding-top: 12%;
     }
     .right-about-us-{{ section.id }} {
-      grid-template-columns: 1fr;
-      text-align: left;
+      grid-template-columns: 1fr 1fr;
+      row-gap: 17%;
+      column-gap: 20%; 
     }
     .organic-cafe-social-media-{{ section.id }} {
       width: 100%;
     }
+    .hero-rating-container-{{ section.id }} {display: none;}
+    .footer-copyrights-{{ section.id }} {font-size: 12px; padding-bottom: 3%;}
+    .social-media-logos-container-{{ section.id }} {margin-top: 0;}
+    .section-footer-{{ section.id }} {padding-left: 5%; padding-right: 4%;}
   }
 {%- endstyle -%}
 
