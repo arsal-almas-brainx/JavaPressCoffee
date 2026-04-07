@@ -211,7 +211,6 @@
     .tab-buttons-{{ section.id }} { gap: 25px; overflow-x: auto; justify-content: flex-start; }
     .tab-header-wrapper-{{ section.id }} { justify-content: flex-start; }
     
-    /* Show nav buttons and adjust position for mobile cards */
     .slider-nav-{{ section.id }} { 
       display: flex; 
       top: 30%;
@@ -223,7 +222,6 @@
     .nav-btn-right-{{ section.id }} { transform: translateY(-130%) translateX(-13px); }
     .nav-btn-left-{{ section.id }} { transform: translateY(-130%) translateX(13px); }
 
-    /* Show dots on mobile only */
     .dots-container-{{ section.id }} { display: flex; }
     .try-out-product-card-h4-{{ section.id }} {font-size: 16px;}
     .try-our-card-rating-{{ section.id }} {font-size: 12px;}
@@ -257,13 +255,15 @@
           {% if current_collection != blank and current_collection.products_count > 0 %}
             {% for product in current_collection.products %}
               <div class="try-our-product-{{ section.id }}">
-                <div class="image-container-{{ section.id }}">
-                  {%- assign img_class = 'try-our-product-card-image-' | append: section.id -%}
-                  {{ product.featured_image | image_url: width: 600 | image_tag: class: img_class, loading: 'lazy' }}
-                </div>
+                
+                <a href="{{ product.url }}" style="text-decoration: none; color: inherit; display: block;">
+                  <div class="image-container-{{ section.id }}">
+                    {%- assign img_class = 'try-our-product-card-image-' | append: section.id -%}
+                    {{ product.featured_image | image_url: width: 600 | image_tag: class: img_class, loading: 'lazy' }}
+                  </div>
 
-                <h4 class="try-out-product-card-h4-{{ section.id }}">{{ product.title }}</h4>
-
+                  <h4 class="try-out-product-card-h4-{{ section.id }}">{{ product.title }}</h4>
+                </a>
                 <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
                   <div style="display:flex; gap:2px;">
                     {%- assign product_rating = product.metafields.custom.star_rating.value | default: 5.0 -%}
@@ -346,13 +346,11 @@
         const target = document.getElementById(btn.getAttribute('data-target'));
         target.classList.add('active');
         
-        // Refresh dots when tab changes
         const slider = target.querySelector('.product-slider-wrapper-' + sId);
         if(slider) updateDots(slider.id);
       });
     });
 
-    // Initialize dots for each slider
     document.querySelectorAll('.product-slider-wrapper-' + sId).forEach(slider => {
       initDots(slider.id);
       slider.addEventListener('scroll', () => updateDots(slider.id));
@@ -366,7 +364,6 @@
     if (!dotsContainer) return;
 
     const products = slider.querySelectorAll('.try-our-product-{{ section.id }}');
-    // Since mobile shows 2 cards, we calculate groups of 2
     const dotsCount = Math.ceil(products.length / 2);
 
     dotsContainer.innerHTML = '';
@@ -397,8 +394,6 @@
   function slideProducts(id, direction) {
     const container = document.getElementById(id);
     const isMobile = window.innerWidth <= 600;
-    // On mobile, scroll by roughly one card width (50% of container)
-    // On desktop, scroll by full container width
     const scrollAmount = isMobile ? container.offsetWidth / 2 : container.offsetWidth;
     container.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
   }

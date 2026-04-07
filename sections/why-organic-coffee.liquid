@@ -11,10 +11,11 @@
   /* 2. APPLY STYLES (Maintaining original percentages) */
   .section-why-100-{{ section.id }} {
     background-color: {{ section.settings.bg_color }};
-    font-family: {{ section.settings.font_body.family }}, {{ section.settings.font_body.fallback_families }} !important;
+    font-family: {{ section.settings.font_body.family | json }}, {{ section.settings.font_body.fallback_families | json }} !important;
   }
 
   .why-100-container-{{ section.id }} {
+    font-family: {{ section.settings.font_body.family | json }}, {{ section.settings.font_body.fallback_families | json }} !important;
     padding: 5% 10% 3.5% 7%;
   }
 
@@ -67,16 +68,16 @@
   }
 
   /* Responsive adjustment for Mobile */
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .why-4-columns-container-{{ section.id }} {
       grid-template-columns: 1fr;
       gap: 30px;
     }
     .why-100-main-heading-{{ section.id }} {
-      font-size: 26px;
+      font-size: 24px;
     }
     .why-100-container-{{ section.id }} {
-      padding: 10% 5%;
+      padding: 10% 4%;
     }
   }
 {%- endstyle -%}
@@ -97,7 +98,6 @@
                    width="{{ block.settings.image.width }}"
                    height="{{ block.settings.image.height }}">
             {%- else -%}
-              {%- comment -%} Syntax Fix: Building the class string with append to avoid nested curly braces {%- endcomment -%}
               {%- assign placeholder_class = 'why-4-column-img-' | append: section.id -%}
               {{ 'image' | placeholder_svg_tag: placeholder_class }}
             {%- endif -%}

@@ -29,10 +29,28 @@
             "case": "none"
           },
           "blocks": {}
+        },
+        "announcement_LrhQYx": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "settings": {
+            "main_font": "raleway_n4",
+            "text": "We are here to help as your coffee concierge!",
+            "link_text": "TAKE THE SURVEY",
+            "link_color": "#D93232",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "announcement_BxgCk9"
+        "announcement_BxgCk9",
+        "announcement_LrhQYx"
       ],
       "name": "t:names.announcement_bar",
       "settings": {
@@ -125,8 +143,7 @@
         "bg_color": "#ffffff",
         "text_color": "#000000",
         "logo_text": "Coffee Shop",
-        "cart_color": "#D93232",
-        "btn_text": "TAKE THE SURVEY",
+        "btn_text": "SHOP NOW",
         "btn_link": "",
         "btn_bg_color": "#ef4444",
         "btn_text_color": "#ffffff",
