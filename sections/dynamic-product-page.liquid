@@ -235,13 +235,17 @@
   .accordion-content p { padding: 0 0 15px 0; font-size: 14px; color: #666; margin: 0; padding-left: 4%; padding-right: 4%; }
   .accordion-item.active .accordion-btn { transform: rotate(45deg); }
   .accordion-item.active .accordion-content { max-height: 500px; }
+  @media screen and (max-width: 992px){
+    .section-featured-product-{{ section.id }} {grid-template-columns: 1fr;}
+    .featured-product-tags-container {grid-template-columns: 9% 9% 9%; margin-top: -6%;}
+  }
   @media screen and (max-width: 767px){
-   .section-featured-product-{{ section.id }} {grid-template-columns: 1fr; padding-left: 5%; padding-right: 5%;}
+   .section-featured-product-{{ section.id }} {padding-left: 5%; padding-right: 5%;}
    .slider-arrow{height:35px; width: 35px;}
    .slider-arrow svg polyline {stroke: white; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round;}
    .slider-arrow svg{width: 16px; height: 16px;}
    .thumb-item{width: 17%;}
-   .featured-product-tags-container{grid-template-columns: 16% 16% 16%; margin-top: -6%;}
+   .featured-product-tags-container{grid-template-columns: 16% 16% 16%; }
    .featured-product-rating-container{font-size: 13px;}
    .featured-card-description{margin-top: -4%; line-height: 150%;}
    .dropdown-container-right-3{grid-template-columns: 1fr; gap: 10%;}

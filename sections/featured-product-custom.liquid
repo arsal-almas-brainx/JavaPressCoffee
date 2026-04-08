@@ -257,18 +257,26 @@
       height: 10px;
       fill: #ffffff;
   }
+  @media screen and (max-width: 992px){
+    .section-featured-product-{{ section.id }} {grid-template-columns: 1fr; padding-left: 8%; padding-right: 8%;}
+    .right-button-bottom-{{ section.id }} {margin-bottom: 7rem; font-size: 11px; margin-right: 0;}
+    .quantity-picker-container-{{ section.id }}{height: 85px;}
+    .right-block-3-button-{{ section.id }} {width: 91.5%;}
+    .dropdown-flavour-{{ section.id }} .dropdown-trigger-{{ section.id }} {width: 87%;}
+    .featured-product-tags-container-{{ section.id }} {grid-template-columns: 9% 9%;}
+    .featured-card-description-{{ section.id }} {width: 95%;}
+  }
   @media screen and (max-width: 767px){
-    .section-featured-product-{{ section.id }} {grid-template-columns: 1fr; padding-left: 5%; padding-right: 5%;}
+    .section-featured-product-{{ section.id }} { padding-left: 5%; padding-right: 5%;}
     .featured-product-tags-container-{{ section.id }} {grid-template-columns: 16% 16%; margin-top: -20px;}
     .dropdown-container-right-3-{{ section.id }} {grid-template-columns: 1fr;}
     .dropdown-flavour-{{ section.id }} .dropdown-trigger-{{ section.id }} {width: 100%;}
-    .featured-card-description-{{ section.id }} {width: 95%;}
     .right-quantity-and-button-{{ section.id }} {grid-template-columns: 1fr; gap: 0;}
-    .right-button-bottom-{{ section.id }} {margin-bottom: 7rem; font-size: 11px; margin-right: 0;}
     .dropdown-flavour-{{ section.id }} {margin-top: 2%; margin-bottom: 4%;}
     .right-dropdown-heading-{{ section.id }} {margin-bottom: 3%;}
-    .quantity-picker-container-{{ section.id }}{height: 85px; margin-top: -5.5%;}
+    .quantity-picker-container-{{ section.id }}{margin-top: -5.5%;}
     .right-block-3-button-{{ section.id }} {width: 100%;}
+    
   }
 {%- endstyle -%}
 

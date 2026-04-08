@@ -206,14 +206,20 @@
     .dropdown-triangle { margin-top: 2px; /* Slight alignment tweak for the triangle */}
     .social-icons { display: flex; gap: 10px; justify-content: center; }
     .social-icons a { display: block; width: 22px; height: 22px; color: #000; }
-
-    @media screen and (max-width: 767px) {
+    @media screen and (max-width: 992px){
+      .header-grid__btn{margin-right: 0;}
       .header-grid__menu-wrapper { display: none; }
       .mobile-menu-trigger { display: block; grid-column: 1; }
+      .header-grid__cart a {transform: translateX(-50%);}
+      .logo-text-custom{padding-left: 117%;}
+      .drawer-header .logo-text-custom{padding-left: 0; font-size: 30px;}
+    }
+    @media screen and (max-width: 767px) {
+      
       .header-grid__logo { grid-column: 2; justify-self: center; }
       .logo-text-custom { padding-left: 50%; font-size: 24px; }
-      .header-grid__cart { grid-column: 4; justify-self: end; }
-      .header-grid__btn { grid-column: 5; margin-right: 0; font-size: 12px; padding: 8px 5px; }
+      .header-grid__cart { grid-column: 4; justify-self: end; transform: translateX(50%); }
+      .header-grid__btn { grid-column: 5;  font-size: 12px; padding: 8px 5px; }
       .custom-grid-header { grid-template-columns: 40px 1fr 0.1fr 40px 100px; gap: 10px; }
       .drawer-header .drawer-title.logo-text-custom {padding-left: 0;}
     }
@@ -419,7 +425,7 @@
       menuItems.forEach((item) => item.classList.remove('is-open'));
     });
 
-    if (window.innerWidth <= 600) {
+    if (window.innerWidth <= 767) {
       const buttons = document.querySelectorAll('.header-grid__btn');
       buttons.forEach((btn) => {
         let text = btn.textContent.trim().replace('→', '').trim();
