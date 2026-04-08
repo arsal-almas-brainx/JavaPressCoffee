@@ -1,5 +1,4 @@
 {%- style -%}
-  /* Font Face Loading */
   {{ section.settings.font_body | font_face: font_display: 'swap' }}
   
   {%- assign font_300 = section.settings.font_body | font_modify: 'weight', '300' -%}
@@ -198,7 +197,6 @@
   }
   .check-circle svg { width: 10px; height: 10px; fill: #ffffff; }
 
-  /* SLIDER */
   .thumbnail-slider-wrapper { overflow-x: auto; overflow-y: hidden; margin-top: 10px; cursor: grab; }
   .slider-track { display: flex; gap: 15px; }
   .thumb-item { width: 14.4%; object-fit: cover; border-radius: 8px; flex-shrink: 0; user-select: none; border: 2px solid transparent; }
@@ -457,7 +455,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 5. AJAX ADD TO CART (SILENT)
     const addToCartBtn = section.querySelector('#AddToCart-{{ section.id }}');
 
     addToCartBtn.addEventListener('click', (e) => {
@@ -492,9 +489,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             addToCartBtn.innerText = "ADDED!";
             
-            // Just refresh the background data and cart bubble, DO NOT open drawer
+            
             if (typeof refreshCartDrawer === 'function') {
-                refreshCartDrawer(false); // We tell our function NOT to open the UI
+                refreshCartDrawer(false);
             }
             
             setTimeout(() => { addToCartBtn.innerText = "ADD TO CART"; }, 2000);

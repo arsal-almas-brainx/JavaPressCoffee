@@ -1,20 +1,11 @@
 {%- style -%}
-  /* 1. LOAD FONT WEIGHTS FROM PICKER */
   {{ section.settings.font_body | font_face: font_display: 'swap' }}
-
-  {%- comment -%} Load Light Weight (200) {%- endcomment -%}
   {%- assign font_200 = section.settings.font_body | font_modify: 'weight', '200' -%}
   {%- if font_200 -%}{{ font_200 | font_face: font_display: 'swap' }}{%- endif -%}
-
-  {%- comment -%} Load Book Weight (300) {%- endcomment -%}
   {%- assign font_300 = section.settings.font_body | font_modify: 'weight', '300' -%}
   {%- if font_300 -%}{{ font_300 | font_face: font_display: 'swap' }}{%- endif -%}
-
-  {%- comment -%} Load Medium Weight (500) {%- endcomment -%}
   {%- assign font_500 = section.settings.font_body | font_modify: 'weight', '500' -%}
   {%- if font_500 -%}{{ font_500 | font_face: font_display: 'swap' }}{%- endif -%}
-
-  {%- comment -%} Load Bold Weight (600+) {%- endcomment -%}
   {%- assign font_600 = section.settings.font_body | font_modify: 'weight', '600' -%}
   {%- if font_600 -%}
     {{ font_600 | font_face: font_display: 'swap' }}
@@ -22,8 +13,6 @@
     {%- assign font_bold = section.settings.font_body | font_modify: 'weight', 'bold' -%}
     {%- if font_bold -%}{{ font_bold | font_face: font_display: 'swap' }}{%- endif -%}
   {%- endif -%}
-
-  /* 2. APPLY STYLES */
   .section-footer-{{ section.id }} {
     background-color: {{ section.settings.bg_color }};
     padding-left: 8%;

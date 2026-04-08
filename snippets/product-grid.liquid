@@ -15,50 +15,32 @@
 {% assign product_card_size = product_card_size | strip %}
 
 {% style %}
+  /* FORCED GRID LAYOUT OVERRIDES */
+
+  /* Desktop: 4 Columns (Above 992px) */
+  @media screen and (min-width: 993px) {
+    .product-grid--{{ section.id }} {
+      --product-grid-columns-desktop: repeat(4, 1fr) !important;
+    }
+  }
+
+  /* iPad / Tablet: 2 Columns (767px to 992px) */
+  @media screen and (max-width: 992px) and (min-width: 767px) {
+    .product-grid--{{ section.id }} {
+      --product-grid-columns-desktop: repeat(2, 1fr) !important;
+    }
+  }
+
+  /* Mobile: 2 Columns (Below 767px) */
+  @media screen and (max-width: 766px) {
+    .product-grid--{{ section.id }} {
+      grid-template-columns: repeat(2, 1fr) !important; --mobile-columns: 2 !important; padding-left: 2%; padding-right: 2%; row-gap: 2%;}
+  }
+
+  /* Preserve original theme zoom-out logic if active */
   @media screen and (min-width: 750px) {
-    {% case section.settings.layout_type %}
-      {% when 'grid' %}
-        .product-grid--{{ section.id }}:is(.product-grid--grid) {
-          --product-grid-columns-desktop: repeat(auto-fill, minmax({{ product_card_size }}, 1fr));
-        }
-
-
-      {% when 'organic' %}
-        {% assign large_span = 2 %}
-        {% assign row_cycle = 3 %}
-        {% assign product_cycle = row_cycle | times: 2 %}
-        {% assign right_large_start_col = 3 %}
-        .product-grid--{{ section.id }}:not([product-grid-view='zoom-out']):is(.product-grid--organic) .product-grid__item:nth-of-type({{ product_cycle }}n + 1) {
-          grid-column: 1 / span {{ large_span }};
-        }
-
-        .product-grid--{{ section.id }}:not([product-grid-view='zoom-out']):is(.product-grid--organic) .product-grid__item:nth-of-type({{ product_cycle }}n + 2),
-        .product-grid--{{ section.id }}:not([product-grid-view='zoom-out']):is(.product-grid--organic) .product-grid__item:nth-of-type({{ product_cycle }}n + 5) {
-          align-self: end;
-        }
-
-        .product-grid--{{ section.id }}:not([product-grid-view='zoom-out']):is(.product-grid--organic) .product-grid__item:nth-of-type({{ product_cycle }}n + {{ product_cycle }}) {
-          grid-column: {{ right_large_start_col }} / span {{ large_span }};
-        }
-
-        .product-grid--{{ section.id }}:not([product-grid-view='zoom-out']):is(.product-grid--organic) {
-          --product-grid-columns-desktop: repeat(4, 1fr);
-        }
-    {% endcase %}
-
-    /* This logic helps prevent displaying one column for an large or extra-large product card size on a small screen. We want it to display at least two columns. */
-    {% case section.settings.product_card_size %}
-      {% when 'extra-large' or 'large' %}
-        @container product-grid (max-width: calc({{ product_card_size }} * 3 + {{ section.settings.columns_gap_horizontal }}px * 2)) {
-          .product-grid--{{ section.id }}:is(.product-grid--grid) {
-            --product-grid-columns-desktop: repeat(2, 1fr);
-          }
-        }
-    {% endcase %}
-
-    /* When zoomed out, fit as many 100px-wide columns as possible */
     .product-grid--{{ section.id }}[product-grid-view='zoom-out'] {
-      --product-grid-columns-desktop: repeat(auto-fill, minmax(6.25rem, 1fr));
+      --product-grid-columns-desktop: repeat(auto-fill, minmax(6.25rem, 1fr)) !important;
     }
 
     .product-grid--{{ section.id }}[product-grid-view='zoom-out'] .product-grid-view-zoom-out--details {
@@ -73,6 +55,7 @@
     }
   }
 {% endstyle %}
+
 <div
   id="ResultsList"
   class="
@@ -82,7 +65,6 @@
     {%- if section.settings.full_width_on_mobile == true %} collection-wrapper--full-width-on-mobile{% endif %}
     spacing-style
   "
-
   style="
     --grid--margin--mobile: 0{% if section.settings.product_grid_width == 'centered' and section.settings.full_width_on_mobile == false %} var(--margin-lg){% else %} 0{% endif %};
     --grid-column--desktop: var(--{% if section.settings.product_grid_width == 'centered' %}centered{% else %}full-width{% endif %});
@@ -102,12 +84,8 @@
   >
     {% if products.size == 0 %}
       <div class="main-collection-grid__empty">
-        <h2 class="main-collection-grid__empty-title h2">
-          {{ 'content.no_products_found' | t }}
-        </h2>
-        <p>
-          {{ 'content.use_fewer_filters_html' | t: link: collection.url, class: 'main-collection-grid__empty-link' }}
-        </p>
+        <h2 class="main-collection-grid__empty-title h2">{{ 'content.no_products_found' | t }}</h2>
+        <p>{{ 'content.use_fewer_filters_html' | t: link: collection.url, class: 'main-collection-grid__empty-link' }}</p>
       </div>
     {% else %}
       {% if enable_infinite_scroll %}
@@ -117,48 +95,34 @@
       {% if title %}
         <h4 class="main-collection-grid__title">{{ title }}</h4>
       {% endif %}
+
       <ul
-        class="product-grid product-grid--{{ section.id }} product-grid--{{ section.settings.layout_type }} {% if section.settings.mobile_product_card_size == 'large' %} product-grid-mobile--large{% endif %}"
+        class="product-grid product-grid--{{ section.id }} product-grid--{{ section.settings.layout_type }}"
         data-testid="product-grid"
         product-grid-view="default"
         ref="grid"
         role="list"
         data-last-page="{{ paginate.pages }}"
-        data-product-card-size="{{ section.settings.product_card_size }}"
-        style="--mobile-columns: {% if section.settings.mobile_product_card_size == 'large' %}1{% else %}2{% endif %};"
+        style="--mobile-columns: 2;"
       >
-        {% comment %}
-          This script is used to set the grid view on the product grid stored in sessionStorage. Keeping it here helps us prevent seeing the default state.
-        {% endcomment %}
         {% unless request.design_mode %}
           <script>
             (() => {
               const grid = document.querySelector('.product-grid');
               if (!grid) return;
-
               const storedLayoutMobile = sessionStorage.getItem('product-grid-view-mobile') || 'default';
               const storedLayoutDesktop = sessionStorage.getItem('product-grid-view-desktop') || 'default';
-
-              // No need to read the window width if no custom layouts were saved.
               if (storedLayoutMobile === 'default' && storedLayoutDesktop === 'default') return;
-
               const storedLayout = window.innerWidth >= 750 ? storedLayoutDesktop : storedLayoutMobile;
               if (storedLayout === 'default') return;
-
               grid.setAttribute('product-grid-view', storedLayout);
-
-              const options = document.querySelectorAll(
-                'input[type="radio"][name="grid"], input[type="radio"][name="grid-mobile"]'
-              );
-              for (const option of options) {
-                option.checked = option.value === storedLayout;
-              }
             })();
           </script>
         {% endunless %}
 
         {{ children }}
       </ul>
+
       {% if enable_infinite_scroll != false %}
         <span ref="viewMoreNext"></span>
       {% else %}
@@ -170,9 +134,9 @@
 
 {% stylesheet %}
   .product-grid {
-    --product-grid-gap: var(--product-grid-gap-mobile);
-    --mobile-columns: 2; /* Default value */
-
+    display: grid;
+    grid-template-columns: var(--product-grid-columns-desktop);
+    --product-grid-gap: 0;
     isolation: isolate;
 
     @media screen and (min-width: 750px) {
@@ -182,15 +146,12 @@
 
   .product-grid slideshow-arrows .slideshow-control {
     display: none;
-
     @media screen and (min-width: 750px) {
       display: grid;
     }
   }
 
-  /* This triggers iOS < 16.4 */
   @supports not (background-color: rgb(from red 150 g b / alpha)) {
-    /* Force aspect ratio to auto for iOS < 16.4 since it's not compatible with the infinite pagination */
     .product-grid .product-media,
     .product-grid .product-media-container {
       aspect-ratio: auto;
@@ -215,9 +176,5 @@
     align-items: center;
     text-align: center;
     gap: var(--padding-sm);
-  }
-
-  .main-collection-grid__empty-title {
-    margin: 0;
   }
 {% endstylesheet %}

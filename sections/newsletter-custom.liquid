@@ -1,5 +1,4 @@
 {%- style -%}
-  /* 1. LOAD FONT FROM PICKER */
   {{ section.settings.font_body | font_face: font_display: 'swap' }}
   
   {%- assign font_bold = section.settings.font_body | font_modify: 'weight', 'bold' -%}
@@ -7,7 +6,6 @@
     {{ font_bold | font_face: font_display: 'swap' }}
   {%- endif -%}
 
-  /* 2. APPLY TO ALL ELEMENTS IN SECTION */
   .section-{{ section.id }} * {
     font-family: {{ section.settings.font_body.family }}, {{ section.settings.font_body.fallback_families }} !important;
     box-sizing: border-box;
@@ -92,11 +90,10 @@
       width: 100%;
       font-size: 15px;
       padding-left: 58px !important;
-      height: 50px !important; /* Forces height to match button container */
+      height: 50px !important; 
       outline: none;
   }
 
-  /* Custom Placeholder Styling */
   .email-sub-{{ section.id }}::placeholder {
       color: #888A8C;
       font-weight: 300;

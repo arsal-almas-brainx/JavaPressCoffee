@@ -115,7 +115,6 @@
 
     {% comment %} --- CART LOGIC SCRIPT --- {% endcomment %}
     <script>
-      // 1. Refresh Drawer Content using Section Rendering API
       function refreshCartDrawer(open = true) {
         fetch(window.location.pathname + '?section_id=custom-cart-drawer')
           .then((response) => response.text())
@@ -130,14 +129,12 @@
               document.querySelector('#CartOverlay').classList.add('active');
             }
 
-            // IMPORTANT: re-init scripts after DOM replace
             if (typeof initCartDrawer === 'function') {
               initCartDrawer();
             }
           });
       }
 
-      // 2. Quantity Change Logic
       function changeQty(key, newQty) {
         const body = JSON.stringify({
           id: key,
@@ -154,16 +151,13 @@
           .catch((e) => console.error('Error updating quantity:', e));
       }
 
-      // 3. Toggle Handlers (Event Delegation)
       document.addEventListener('click', (e) => {
-        // Open Drawer (Targets your header cart icon - ensure it has this ID or Class)
         if (e.target.closest('#CartDrawerTrigger') || e.target.closest('.toggler')) {
           e.preventDefault();
           document.querySelector('#CartDrawer').classList.add('active');
           document.querySelector('#CartOverlay').classList.add('active');
         }
 
-        // Close Drawer
         if (e.target.id === 'CloseDrawerBtn' || e.target.id === 'CartOverlay') {
           document.querySelector('#CartDrawer').classList.remove('active');
           document.querySelector('#CartOverlay').classList.remove('active');

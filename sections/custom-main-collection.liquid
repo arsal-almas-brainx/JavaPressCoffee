@@ -1,6 +1,5 @@
 <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
 {%- style -%}
-  /* 1. Global Section Styling & Font */
   @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap');
 
   .collection-wrapper-main {
@@ -14,12 +13,11 @@
     font-weight: 700 !important;
     margin-bottom: 40px;
     color: #424242;
-    text-transform: none; /* Matching your h4 design exactly */
+    text-transform: none;
   }
   div#product-grid{
     margin-top: 2.5%;
   }
-  /* 2. Grid Layout Logic */
   .product-grid-static-{{ section.id }} {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -27,13 +25,11 @@
     width: 100%;
   }
 
-  /* Rule for last row: Max 2 products if incomplete */
   .product-grid-static-{{ section.id }}:after {
     content: "";
     grid-column: span 2;
   }
 
-  /* 3. Product Card Styling (100% Match) */
   .related-product-card-{{ section.id }} {
     display: flex;
     flex-direction: column;
@@ -58,7 +54,6 @@
     display: block;
   }
 
-  /* Dynamic Tag Badge */
   .dynamic-tag-badge {
     position: absolute;
     top: 12px;
@@ -144,7 +139,6 @@
     font-size: 18px;
   }
 
-  /* 4. Pagination Arrows */
   .custom-pagination {
     display: flex;
     justify-content: center;
@@ -203,7 +197,6 @@
 
               {% for prod in collection.products %}
                 <div class="related-product-card-{{ section.id }} js-related-card" data-url="{{ prod.url }}">
-                  {%- comment -%} ... KEEP ALL YOUR EXISTING PRODUCT CARD CODE HERE ... {%- endcomment -%}
 
                   {% if prod.tags.size > 0 %}
                     <span class="dynamic-tag-badge">{{ prod.tags | first }}</span>
@@ -269,7 +262,6 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Handling click on card (but not on button)
     document.addEventListener('click', function (e) {
       const card = e.target.closest('.js-related-card');
       if (card && !e.target.closest('button') && !e.target.closest('form')) {
@@ -277,7 +269,6 @@
       }
     });
 
-    // AJAX Add to Cart
     document.addEventListener('submit', function (e) {
       const form = e.target.closest('.js-related-form');
       if (form) {

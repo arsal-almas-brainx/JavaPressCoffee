@@ -1,5 +1,4 @@
 {%- style -%}
-  /* 1. DYNAMIC FONT LOADING */
   {{ section.settings.font_body | font_face: font_display: 'swap' }}
   
   {%- assign font_300 = section.settings.font_body | font_modify: 'weight', '300' -%}
@@ -14,7 +13,6 @@
       font-family: {{ section.settings.font_body.family }}, {{ section.settings.font_body.fallback_families }} !important;
   }
 
-  /* 2. OVERLAY & PANEL */
   .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1000; }
   .overlay.active { opacity: 1; visibility: visible; }
 
@@ -23,14 +21,12 @@
 
   .cart-container { height: 100vh; background: #fff; box-shadow: -2px 0 10px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow: hidden; position: relative; }
 
-  /* 3. HEADER */
   .cart-header { display: grid; grid-template-columns: 90% 10%; align-items: center; border-bottom: 1px dashed #E5E4E4; flex-shrink: 0; }
   .cart-header-left { text-align: center; padding-left: 10%; }
   .cart-header-left h3 { font-size: 16px; font-weight: 700; margin-bottom: 0; margin-top: 8px; }
   .total-product-count { font-size: 12px; font-weight: 400; margin-top: 6px; }
   .cart-close-button { cursor: pointer; font-size: 22px; border: none; background: none; }
 
-  /* 4. BODY & PRODUCTS */
   .body-cart { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; }
   .product-wrapper { margin-top: 6%; border-bottom: 1px dashed #E5E4E4; flex: 1; }
   
@@ -44,7 +40,6 @@
   
   .product-card-cart-center-price, .product-card-cart-center-flavour, .product-card-cart-center-potency { font-size: 13px; font-weight: 400; margin: 0 0 8px 0; color: #424242; }
 
-  /* COUNTER */
   .counter { display: flex; align-items: center; justify-content: space-between; border: 1px solid #424242; border-radius: 4px; width: 79%; height: 52px; overflow: hidden; }
   .counter-btn { width: 48px; height: 100%; border: none; background: #F2F2F2; cursor: pointer; font-size: 24px; font-weight: 100; }
   .counter-value { font-size: 18px; font-weight: 500; }
@@ -52,7 +47,6 @@
 
   .estimated-total-des,
   .estimated-total-price-total{margin: 0; font-size: 18px; font-weight: 700;}
-  /* 5. FOOTER */
   .footer-cart { padding: 15px 6% 6px 6%; flex-shrink: 0; }
   .choose-delivery-date { margin: 0; font-size: 12px; font-weight: 500; }
   .footer-calender { display: flex; align-items: center; justify-content: space-between; background-color: #EFEFEF; padding: 0 5%; color: #424242; margin-top: 4px; border-radius: 4px; height: 45px; }
@@ -63,7 +57,6 @@
   .cart-checkout-button { height: 50px; border: none; background-color: #EF4444; color: #FFFF; font-size: 16px; font-weight: 800; width: 100%; cursor: pointer; border-radius: 6px; }
   .footer-tax-text { font-size: 12px; font-weight: 500; color: #424242; text-align: center; margin-top: 6px; }
 
-  /* 6. CALENDAR MODAL (Your Design) */
   .calendar-modal { position: absolute; bottom: -100%; left: 0; width: 100%; background: #fff; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; border-top-left-radius: 15px; border-top-right-radius: 15px;     font-family: 'Inter', sans-serif !important; }
   .calendar-modal.active { bottom: 0; }
   .calendar-content { padding: 4% 6%; }
@@ -170,7 +163,6 @@
 let currentCalDate = new Date();
 let selectedCalDate = null;
 
-// --- 1. DRAWER UTILS ---
 const openCart = () => {
     document.getElementById('CartDrawer').classList.add('active');
     document.getElementById('CartOverlay').classList.add('active');
@@ -184,7 +176,6 @@ const closeCart = () => {
 document.getElementById('CloseDrawerBtn').addEventListener('click', closeCart);
 document.getElementById('CartOverlay').addEventListener('click', closeCart);
 
-// --- 2. AJAX REFRESH ---
 function refreshCartDrawer(open = false) {
     fetch(window.location.href)
         .then(res => res.text())
@@ -192,7 +183,7 @@ function refreshCartDrawer(open = false) {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
             document.getElementById('CartDrawerContent').innerHTML = doc.getElementById('CartDrawerContent').innerHTML;
-            initCalendarLogic(); // Re-bind calendar after HTML replace
+            initCalendarLogic(); 
             if(open) openCart();
         });
 }
@@ -205,7 +196,6 @@ function updateCartItem(key, qty) {
     }).then(() => refreshCartDrawer(false));
 }
 
-// --- 3. CALENDAR LOGIC (Your JS integrated) ---
 function initCalendarLogic() {
     const calendarModal = document.getElementById('calendarModal');
     const calendarBtn = document.getElementById('OpenCalendar');
