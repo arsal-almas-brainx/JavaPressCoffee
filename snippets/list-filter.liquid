@@ -101,7 +101,17 @@
           </facet-status-component>
         {% endif %}
         <span class="svg-wrapper icon-caret icon-animated">
-          {{- 'icon-caret.svg' | inline_asset_content -}}
+          <svg
+          class="ph-arrow-right"
+          xmlns="http://www.w3.org/2000/svg"
+          width="280"
+          height="280"
+          fill="none"
+          viewBox="0 0 256 256"
+        >
+          <line x1="128" y1="216" x2="128" y2="40" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="56 112 128 40 200 112" stroke="currentColor" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
         </span>
       </div>
     </summary>
@@ -435,6 +445,7 @@
 %}
 
 {% stylesheet %}
+  .ph-arrow-right {width: 22px; height: 22px;}
   .facets input:checked + label {
     font-weight: 500;
   }
@@ -494,7 +505,7 @@
       --pill-label-border-opacity: 100%;
     }
   }
-
+   
   .facets__pill-input {
     &:checked + .facets__pill-label {
       --pill-label-color-rgb: var(--color-background-rgb);

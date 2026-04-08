@@ -1,3 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+/* Apply Raleway to everything */
+*, *::before, *::after {
+  font-family: 'Raleway', sans-serif !important;
+}
+
+/* Fix for icons - prevents Raleway from breaking theme icons */
+.icon, 
+.fa, 
+[class^="icon-"], 
+[class*=" icon-"],
+svg {
+  font-family: inherit !important;
+}
 * {
   box-sizing: border-box;
 }
@@ -1303,7 +1317,7 @@ button.shopify-payment-button__button--unbranded {
 }
 
 .button:not(.button-secondary, .button-unstyled) {
-  outline-color: var(--button-background-color);
+  outline-color: #EF4444;
 }
 
 .button-secondary {
@@ -1348,9 +1362,11 @@ input:not(:placeholder-shown)::placeholder {
 .button,
 button.shopify-payment-button__button--unbranded {
   --button-color: var(--color-primary-button-text);
-  --button-background-color: var(--color-primary-button-background);
+  --button-background-color: #EF4444;
   --button-border-color: var(--color-primary-button-border);
   --button-border-width: var(--style-border-width-primary);
+  font-size: 16px;
+  font-weight: 800;
 }
 
 .button:hover,
@@ -1363,7 +1379,6 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
 .button-secondary {
   --button-color: var(--color-secondary-button-text);
   --button-background-color: var(--color-secondary-button-background);
-  --button-border-color: var(--color-secondary-button-border);
   --button-border-width: var(--style-border-width-secondary);
 }
 
