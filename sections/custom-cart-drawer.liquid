@@ -176,15 +176,18 @@ const closeCart = () => {
 document.getElementById('CloseDrawerBtn').addEventListener('click', closeCart);
 document.getElementById('CartOverlay').addEventListener('click', closeCart);
 
-function refreshCartDrawer(open = false) {
+function refreshCartDrawer(open = true) {
     fetch(window.location.href)
         .then(res => res.text())
         .then(html => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
-            document.getElementById('CartDrawerContent').innerHTML = doc.getElementById('CartDrawerContent').innerHTML;
-            initCalendarLogic(); 
-            if(open) openCart();
+            const newContent = doc.getElementById('CartDrawerContent');
+            if (newContent) {
+                document.getElementById('CartDrawerContent').innerHTML = newContent.innerHTML;
+                initCalendarLogic(); 
+                if(open) openCart();
+            }
         });
 }
 
@@ -218,14 +221,20 @@ function initCalendarLogic() {
         };
     }
 
-    document.getElementById('prevMonth').onclick = () => {
-        currentCalDate.setMonth(currentCalDate.getMonth() - 1);
-        renderCalendar();
-    };
-    document.getElementById('nextMonth').onclick = () => {
-        currentCalDate.setMonth(currentCalDate.getMonth() + 1);
-        renderCalendar();
-    };
+    const prevBtn = document.getElementById('prevMonth');
+    const nextBtn = document.getElementById('nextMonth');
+    if(prevBtn) {
+      prevBtn.onclick = () => {
+          currentCalDate.setMonth(currentCalDate.getMonth() - 1);
+          renderCalendar();
+      };
+    }
+    if(nextBtn) {
+      nextBtn.onclick = () => {
+          currentCalDate.setMonth(currentCalDate.getMonth() + 1);
+          renderCalendar();
+      };
+    }
 }
 
 function renderCalendar() {
@@ -233,6 +242,8 @@ function renderCalendar() {
     const monthDisplay = document.getElementById('monthDisplay');
     const previewDate = document.getElementById('previewDate');
     
+    if(!calendarDays || !monthDisplay) return;
+
     calendarDays.innerHTML = '';
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -267,7 +278,7 @@ function renderCalendar() {
                 document.querySelectorAll('.calendar-days span').forEach(s => s.classList.remove('selected'));
                 span.classList.add('selected');
                 selectedCalDate = new Date(year, month, day);
-                previewDate.innerText = formatWithSpaces(selectedCalDate);
+                if(previewDate) previewDate.innerText = formatWithSpaces(selectedCalDate);
             }
         };
         calendarDays.appendChild(span);
@@ -280,6 +291,21 @@ function formatWithSpaces(date) {
     const y = date.getFullYear();
     return `${d} / ${m} / ${y}`;
 }
+
+// Auto-open logic starts here
+document.addEventListener('cart:add', () => {
+    refreshCartDrawer(true);
+});
+
+const originalFetch = window.fetch;
+window.fetch = function() {
+    return originalFetch.apply(this, arguments).then((response) => {
+        if (response.url.includes('/cart/add')) {
+            refreshCartDrawer(true);
+        }
+        return response;
+    });
+};
 
 document.addEventListener('DOMContentLoaded', initCalendarLogic);
 </script>

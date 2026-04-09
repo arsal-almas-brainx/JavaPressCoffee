@@ -1,11 +1,16 @@
 {%- doc -%}
-  Renders a wrapper section
 
   @param {section} section - The section object
   @param {string} children - The children of the section
 {%- enddoc -%}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div 
+  class="section-background color-{{ section.settings.color_scheme }}"
+  {% if section.settings.use_custom_design %}
+    style="background-color: {{ section.settings.custom_bg_color }} !important; opacity: 1;"
+  {% endif %}
+></div>
+
 <div
   class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
   data-testid="ui-test-section"
@@ -15,6 +20,10 @@
   {% endif %}
 
   style="
+    {% if section.settings.use_custom_design %}
+      background-color: {{ section.settings.custom_bg_color }} !important;
+    {% endif %}
+
     {% if section.settings.section_height == 'custom' %}
       --section-min-height: {{ section.settings.section_height_custom }}svh;
     {% elsif section.settings.section_height == 'full-screen' %}
@@ -28,7 +37,7 @@
      {% endif %}
   "
 >
-  <div class="custom-section-background">
+  <div class="custom-section-background" {% if section.settings.use_custom_design %}style="display: none;"{% endif %}>
     {% render 'background-media',
       background_media: section.settings.background_media,
       background_video: section.settings.video,

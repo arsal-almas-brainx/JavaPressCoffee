@@ -1,5 +1,3 @@
-
-
 {% capture children %}
   {% content_for 'blocks' %}
 {% endcapture %}
@@ -25,6 +23,88 @@
     "groups": ["header"]
   },
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "use_custom_design",
+      "label": "Use Custom Design",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom Background Color",
+      "default": "#175A59"
+    },
+    {
+      "type": "range",
+      "id": "custom_image_width",
+      "label": "Custom Image Width",
+      "min": 50,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "custom_image_height",
+      "label": "Custom Image Height",
+      "min": 50,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "default": 300
+    },
+    {
+      "type": "header",
+      "content": "Custom Image Margins",
+      "info": "Only active when Custom Design is enabled",
+      "visible_if": "{{ section.settings.use_custom_design }}"
+    },
+    {
+      "type": "range",
+      "id": "custom_margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.use_custom_design }}"
+    },
+    {
+      "type": "range",
+      "id": "custom_margin_right",
+      "label": "Margin Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.use_custom_design }}"
+    },
+    {
+      "type": "range",
+      "id": "custom_margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.use_custom_design }}"
+    },
+    {
+      "type": "range",
+      "id": "custom_margin_left",
+      "label": "Margin Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.use_custom_design }}"
+    },
     {
       "type": "header",
       "content": "t:content.layout"

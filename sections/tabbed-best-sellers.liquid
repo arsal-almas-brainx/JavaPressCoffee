@@ -25,8 +25,8 @@
     justify-content: center;
     font-size: 32px;
     font-weight: 700 !important;
-    margin-bottom: 8%;
-    margin-top: 4%;
+    margin-bottom: 5%;
+    margin-top: 2%;
   }
 
   .tab-header-wrapper-{{ section.id }} {
@@ -175,8 +175,8 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
 
-  .nav-btn-right-{{ section.id }} { transform: translateX(-210%) translateY(-90%); }
-  .nav-btn-left-{{ section.id }} { transform: translateX(210%) translateY(-90%); }
+  .nav-btn-right-{{ section.id }} { transform: translateX(-190%) translateY(-90%); }
+  .nav-btn-left-{{ section.id }} { transform: translateX(190%) translateY(-90%); }
 
   /* New Dot Pagination Styles */
   .dots-container-{{ section.id }} {
@@ -205,16 +205,16 @@
   }
 
   @media screen and (max-width: 767px) {
-    .try-our-product-{{ section.id }} { 
-      flex: 0 0 calc(50% - 10px); 
-      min-width: calc(50% - 10px); 
+    .try-our-product-{{ section.id }} {
+      flex: 0 0 calc(50% - 10px);
+      min-width: calc(50% - 10px);
     }
     .tab-pane-{{ section.id }} { padding: 0 20px; }
     .tab-buttons-{{ section.id }} { gap: 25px; overflow-x: auto; justify-content: flex-start; }
     .tab-header-wrapper-{{ section.id }} { justify-content: flex-start; }
-    
-    .slider-nav-{{ section.id }} { 
-      display: flex; 
+
+    .slider-nav-{{ section.id }} {
+      display: flex;
       top: 30%;
       left: 5px;
       right: 5px;
@@ -257,7 +257,6 @@
           {% if current_collection != blank and current_collection.products_count > 0 %}
             {% for product in current_collection.products %}
               <div class="try-our-product-{{ section.id }}">
-                
                 <a href="{{ product.url }}" style="text-decoration: none; color: inherit; display: block;">
                   <div class="image-container-{{ section.id }}">
                     {%- assign img_class = 'try-our-product-card-image-' | append: section.id -%}
@@ -296,7 +295,7 @@
                   {% endif %}
                 </div>
 
-                <form method="post" action="{{ routes.cart_add_url }}">
+                <form method="post" action="{{ routes.cart_add_url }}" onsubmit="handleTabAddToCart(event, this)">
                   <input type="hidden" name="id" value="{{ product.variants.first.id }}">
                   <button type="submit" class="product-card-button-{{ section.id }}">ADD TO CART</button>
                 </form>
@@ -313,7 +312,17 @@
               class="nav-btn-left-{{ section.id }} nav-btn-{{ section.id }}"
               onclick="slideProducts('slider-{{ block.id }}', -1) "
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </button>
@@ -321,12 +330,22 @@
               class="nav-btn-right-{{ section.id }} nav-btn-{{ section.id }}"
               onclick="slideProducts('slider-{{ block.id }}', 1)"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </button>
           </div>
-          
+
           <div class="dots-container-{{ section.id }}" id="dots-{{ block.id }}"></div>
         {% endif %}
       </div>
@@ -347,13 +366,13 @@
         btn.classList.add('active');
         const target = document.getElementById(btn.getAttribute('data-target'));
         target.classList.add('active');
-        
+
         const slider = target.querySelector('.product-slider-wrapper-' + sId);
-        if(slider) updateDots(slider.id);
+        if (slider) updateDots(slider.id);
       });
     });
 
-    document.querySelectorAll('.product-slider-wrapper-' + sId).forEach(slider => {
+    document.querySelectorAll('.product-slider-wrapper-' + sId).forEach((slider) => {
       initDots(slider.id);
       slider.addEventListener('scroll', () => updateDots(slider.id));
     });
@@ -385,7 +404,7 @@
     const scrollPercentage = slider.scrollLeft / (slider.scrollWidth - slider.clientWidth || 1);
     const dots = dotsContainer.querySelectorAll('.dot-{{ section.id }}');
     if (dots.length === 0) return;
-    
+
     const activeIndex = Math.min(Math.round(scrollPercentage * (dots.length - 1)), dots.length - 1);
 
     dots.forEach((dot, idx) => {
@@ -398,6 +417,49 @@
     const isMobile = window.innerWidth <= 600;
     const scrollAmount = isMobile ? container.offsetWidth / 2 : container.offsetWidth;
     container.scrollBy({ left: scrollAmount * direction, behavior: 'smooth' });
+  }
+  function handleTabAddToCart(event, form) {
+    event.preventDefault(); // Stops the page reload
+
+    const submitBtn = form.querySelector('button');
+    const originalText = submitBtn.innerText;
+    submitBtn.innerText = 'ADDING...';
+    submitBtn.disabled = true;
+
+    const formData = new FormData(form);
+
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error('Failed to add');
+        return response.json();
+      })
+      .then((data) => {
+        submitBtn.innerText = 'ADDED!';
+
+        // Call your global custom drawer function and tell it to open (true)
+        if (typeof refreshCartDrawer === 'function') {
+          refreshCartDrawer(true);
+        } else {
+          console.warn('refreshCartDrawer function not found. Redirecting to cart.');
+          window.location.href = '/cart';
+        }
+
+        setTimeout(() => {
+          submitBtn.innerText = originalText;
+          submitBtn.disabled = false;
+        }, 2000);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        submitBtn.innerText = 'ERROR';
+        setTimeout(() => {
+          submitBtn.innerText = originalText;
+          submitBtn.disabled = false;
+        }, 2000);
+      });
   }
 </script>
 

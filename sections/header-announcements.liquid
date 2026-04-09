@@ -8,9 +8,10 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <style>
-  /* This colors the entire horizontal bar from edge to edge */
   .announcement-bar {
     background-color: {{ section.settings.entire_bar_bg }} !important;
+    padding-left: {{ section.settings.padding-inline-start }}% !important;
+    padding-right: {{ section.settings.padding-inline-end }}% !important;
   }
 
   .announcement-bar__slide,
@@ -71,11 +72,11 @@
     max-width: 680px;
     margin-inline: auto;
   }
-  @media screen and (max-width: 767px){
-    .announcement-bar__slides{
+  @media screen and (max-width: 767px) {
+    .announcement-bar__slides {
       width: 90%;
     }
-    .announcement-bar__text{
+    .announcement-bar__text {
       font-size: 11px;
     }
   }
@@ -153,6 +154,26 @@
     "groups": ["header"]
   },
   "settings": [
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding Left (Inline Start)",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding Right (Inline End)",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 0
+    },
     {
       "type": "color",
       "id": "entire_bar_bg",

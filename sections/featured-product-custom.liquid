@@ -102,6 +102,7 @@
       color: #424242;
       width: 88%;
       margin-top: -2%;
+      margin-bottom: 2%;
   }
   .dropdown-container-right-3-{{ section.id }}{
       display: grid;
@@ -171,7 +172,7 @@
       font-weight: 600;
   }
   .block-right-3-{{ section.id }}{
-      margin-top: 4%;
+      margin-top: 2%;
   }
   .right-quantity-and-button-{{ section.id }}{
       display: grid;
@@ -250,6 +251,7 @@
   }
   .block-right-2-{{ section.id }} {
     margin-top: 3%;
+    border-bottom: 1px solid #F0F0F0;
   }
   .check-circle-{{ section.id }} svg {
       width: 10px;
@@ -371,7 +373,7 @@
                     </div>
                 </div>
                 <div class="right-button-{{ section.id }}">
-                    <button type="button" class="right-block-3-button-{{ section.id }}">ADD TO CART</button>
+                    <button type="button" class="right-block-3-button-{{ section.id }}" id="AddToCart-{{ section.id }}" onclick="handleStaticAddToCart(this)">ADD TO CART</button>
                     <div class="right-button-bottom-{{ section.id }}">
                         <p><span class="check-circle-{{ section.id }}"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>Secure Checkout</p>
                         <p><span class="check-circle-{{ section.id }}"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></span>Secure Shipping</p>
@@ -423,6 +425,66 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll('.dropdown-list-{{ section.id }}').forEach(l => l.classList.remove('show'));
         document.querySelectorAll('.custom-dropdown-{{ section.id }}').forEach(w => w.classList.remove('is-active'));
     };
+
+    window.handleStaticAddToCart = function(btn) {
+        const originalText = btn.innerText;
+        btn.innerText = "ADDING...";
+        btn.disabled = true;
+
+        const potency = document.getElementById('current-val-1-{{ section.id }}').innerText;
+        const flavour = document.getElementById('current-val-2-{{ section.id }}').innerText;
+        const quantity = parseInt(document.getElementById('qty-val-{{ section.id }}').innerText);
+
+        const variantId = {{ section.settings.product_ref.selected_or_first_available_variant.id | default: 'null' }};
+
+        if (!variantId) {
+            alert("Please select a product in the section settings first.");
+            btn.innerText = originalText;
+            btn.disabled = false;
+            return;
+        }
+
+        let formData = {
+            'items': [{
+                'id': variantId,
+                'quantity': quantity,
+                'properties': {
+                    'Potency': potency,
+                    'Flavour': flavour
+                }
+            }]
+        };
+
+        fetch(window.Shopify.routes.root + 'cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Failed');
+            return response.json();
+        })
+        .then(data => {
+            btn.innerText = "ADDED!";
+            
+            if (typeof refreshCartDrawer === 'function') {
+                refreshCartDrawer(true);
+            }
+
+            setTimeout(() => { 
+                btn.innerText = originalText; 
+                btn.disabled = false;
+            }, 2000);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            btn.innerText = "ERROR";
+            setTimeout(() => { 
+                btn.innerText = originalText; 
+                btn.disabled = false;
+            }, 2000);
+        });
+    };
 });
 </script>
 
@@ -430,6 +492,7 @@ document.addEventListener("DOMContentLoaded", () => {
 {
   "name": "Featured Product Static",
   "settings": [
+    { "type": "product", "id": "product_ref", "label": "Select Product for Cart" },
     { "type": "image_picker", "id": "image", "label": "Product Image" },
     { "type": "text", "id": "tag_1", "label": "Tag 1", "default": "Best Sellers" },
     { "type": "text", "id": "tag_2", "label": "Tag 2", "default": "Staff Pick" },

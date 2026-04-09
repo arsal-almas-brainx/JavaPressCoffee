@@ -1,4 +1,23 @@
 {%- style -%}
+
+.text-block--{{ block.id }} .announcement-bar__cta-link {
+    color: {{ block.settings.link_color }} !important;
+    font-family: {{ block.settings.main_font.family }}, {{ block.settings.main_font.fallback_families }} !important;
+    font-weight: 700 !important; 
+    text-decoration: none !important; 
+    display: inline-block !important;
+    border-bottom: 1px solid {{ block.settings.link_color }} !important;
+    line-height: 1.2 !important;
+    padding-bottom: 1px !important;
+    
+    margin-left: 5px !important;
+    cursor: pointer !important;
+  }
+
+  .text-block--{{ block.id }} .announcement-bar__cta-link:hover {
+    border-bottom: 1px solid {{ block.settings.link_color }} !important;
+    opacity: 0.8;
+  }
   {{ block.settings.main_font | font_face: font_display: 'swap' }}
 
   .text-block--{{ block.id }},
@@ -12,8 +31,8 @@
     color: {{ block.settings.link_color }} !important;
     font-family: {{ block.settings.main_font.family }}, {{ block.settings.main_font.fallback_families }} !important;
     font-weight: 700 !important; 
-    text-decoration: underline !important; 
-    text-underline-offset: 4px !important;
+    text-underline-offset: 3px !important;
+    text-decoration-color: {{ block.settings.link_color }} !important;
   }
 {%- endstyle -%}
 {%- assign block_settings = block.settings -%}

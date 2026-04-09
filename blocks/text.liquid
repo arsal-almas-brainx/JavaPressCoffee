@@ -1,12 +1,38 @@
 
 
-{% render 'text', block: block %}
+{%- liquid
+  assign custom_color_style = ''
+  if section.settings.use_custom_design
+    assign custom_color_style = '--color: ' | append: block.settings.custom_text_color | append: ' !important;'
+  endif
+-%}
+
+{%- style -%}
+  {% if section.settings.use_custom_design %}
+    .custom-text-wrapper-{{ block.id }},
+    .custom-text-wrapper-{{ block.id }} * {
+      color: {{ block.settings.custom_text_color }} !important;
+      --color: {{ block.settings.custom_text_color }} !important;
+    }
+  {% endif %}
+{%- endstyle -%}
+
+<div class="custom-text-wrapper-{{ block.id }}" style="{{ custom_color_style }}">
+  {% render 'text', block: block %}
+</div>
 
 {% schema %}
 {
   "name": "t:names.text",
   "tag": null,
   "settings": [
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom Text Color",
+      "default": "#000000",
+      "visible_if": "{{ section.settings.use_custom_design }}"
+    },
     {
       "type": "richtext",
       "id": "text",
