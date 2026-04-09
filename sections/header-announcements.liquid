@@ -19,6 +19,12 @@
   announcement-bar-component {
     background-color: transparent !important;
   }
+  @media screen and (max-width: 767px){
+    .announcement-bar {
+      padding-left: 0% !important;
+      padding-right: 0% !important;
+    }
+  }
 </style>
 <aside
   class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
