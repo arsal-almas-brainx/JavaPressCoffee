@@ -21,7 +21,7 @@
     display: block;
   }
 
-  .rel-img-container img, 
+  .rel-img-container img,
   .rel-img-manual {
     width: 100%;
     height: 100%;
@@ -103,7 +103,7 @@
     font-size: 16px;
     transition: opacity 0.3s;
   }
-  
+
   .rel-add-btn:hover {
     opacity: 0.9;
   }
@@ -120,19 +120,21 @@
 
 <div class="custom-card-{{ section.id }}">
   {% unless product == blank %}
-    
     {% comment %} Image Link with Badge {% endcomment %}
     <a href="{{ product.url }}" class="rel-img-container">
       {%- if product.tags.size > 0 -%}
         <span class="dynamic-tag-badge-manual">{{ product.tags | first }}</span>
       {%- endif -%}
 
-      {{ product.featured_image | image_url: width: 600 | image_tag: 
-        loading: 'lazy', 
-        alt: product.title, 
-        class: 'rel-img-manual',
-        width: product.featured_image.width,
-        height: product.featured_image.height
+      {{
+        product.featured_image
+        | image_url: width: 600
+        | image_tag:
+          loading: 'lazy',
+          alt: product.title,
+          class: 'rel-img-manual',
+          width: product.featured_image.width,
+          height: product.featured_image.height
       }}
     </a>
 
@@ -179,6 +181,59 @@
     <button class="rel-add-btn" disabled>ADD TO CART</button>
   {% endunless %}
 </div>
+<script>
+  if (!window.productCardGalleryInitialized) {
+    document.addEventListener('submit', (e) => {
+      // This checks if the submitted form is an "Add to Cart" form
+      const form = e.target;
+      if (form.action && form.action.includes('/cart/add')) {
+        e.preventDefault();
+
+        const btn = form.querySelector('.rel-add-btn');
+        const formData = new FormData(form);
+
+        if (btn) {
+          btn.innerText = 'ADDING...';
+          btn.style.opacity = '0.7';
+          btn.disabled = true; // Prevent double-clicks
+        }
+
+        fetch(window.Shopify.routes.root + 'cart/add.js', {
+          method: 'POST',
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) throw new Error('Add to cart failed');
+            return response.json();
+          })
+          .then((data) => {
+            if (btn) btn.innerText = 'ADDED!';
+
+            // This triggers your Cart Drawer logic from the first file
+            if (typeof refreshCartDrawer === 'function') {
+              refreshCartDrawer(true);
+            }
+
+            setTimeout(() => {
+              if (btn) {
+                btn.innerText = 'ADD TO CART';
+                btn.style.opacity = '1';
+                btn.disabled = false;
+              }
+            }, 1500);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+            if (btn) {
+              btn.innerText = 'ERROR';
+              btn.disabled = false;
+            }
+          });
+      }
+    });
+    window.productCardGalleryInitialized = true;
+  }
+</script>
 
 {% schema %}
 {

@@ -76,6 +76,14 @@
     "variant_button_border_width": 1,
     "variant_button_radius": 14,
     "variant_button_width": "equal-width-buttons",
+    "sections": {
+      "custom-cart-drawer": {
+        "type": "custom-cart-drawer",
+        "settings": {
+          "font_body": "raleway_n4"
+        }
+      }
+    },
     "content_for_index": [],
     "blocks": {
       "15683396631634586217": {
@@ -91,6 +99,11 @@
           "button_vertical_position": "lowest",
           "greeting_message": ""
         }
+      },
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {

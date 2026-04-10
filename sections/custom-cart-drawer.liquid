@@ -1,6 +1,6 @@
 {%- style -%}
   {{ section.settings.font_body | font_face: font_display: 'swap' }}
-  
+
   {%- assign font_300 = section.settings.font_body | font_modify: 'weight', '300' -%}
   {%- assign font_500 = section.settings.font_body | font_modify: 'weight', '500' -%}
   {%- assign font_600 = section.settings.font_body | font_modify: 'weight', '600' -%}
@@ -13,7 +13,7 @@
       font-family: {{ section.settings.font_body.family }}, {{ section.settings.font_body.fallback_families }} !important;
   }
 
-  .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1000; }
+  .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; z-index: 1000; cursor: pointer; }
   .overlay.active { opacity: 1; visibility: visible; }
 
   .section-cart { position: fixed; top: 0; right: -400px; height: 100vh; width: 100%; max-width: 375px; transition: right 0.3s ease; z-index: 1100; }
@@ -29,15 +29,15 @@
 
   .body-cart { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; }
   .product-wrapper { margin-top: 6%; border-bottom: 1px dashed #E5E4E4; flex: 1; }
-  
+
   .product-card-cart { display: grid; grid-template-columns: 34.5% auto; gap: 2%; padding: 0 6% 8% 6%; }
   .product-card-cart-img-wrapper { width: 110px; height: 110px; }
   .product-card-cart-img { width: 100%; height: 100%; border-radius: 6px; object-fit: cover; }
-  
+
   .product-card-cart-center-headingandprice { font-size: 14px; color: #424242; display: flex; justify-content: space-between; line-height: 15px; margin-bottom: 8px; }
   .product-card-cart-center-heading { margin: 0; font-weight: 600; flex: 1; padding-right: 5px; font-size: 14px }
-  .product-card-cart-center-total-price { margin: 0; font-weight: 600; font-size:14px }
-  
+  .product-card-cart-center-total-price { margin: 0; font-weight: 600; font-size: 14px }
+
   .product-card-cart-center-price, .product-card-cart-center-flavour, .product-card-cart-center-potency { font-size: 13px; font-weight: 400; margin: 0 0 8px 0; color: #424242; }
 
   .counter { display: flex; align-items: center; justify-content: space-between; border: 1px solid #424242; border-radius: 4px; width: 79%; height: 52px; overflow: hidden; }
@@ -46,7 +46,7 @@
   .delete-btn { border: none; background: none; cursor: pointer; padding: 0; margin-top: 10px; }
 
   .estimated-total-des,
-  .estimated-total-price-total{margin: 0; font-size: 18px; font-weight: 700;}
+  .estimated-total-price-total { margin: 0; font-size: 18px; font-weight: 700; }
   .footer-cart { padding: 15px 6% 6px 6%; flex-shrink: 0; }
   .choose-delivery-date { margin: 0; font-size: 12px; font-weight: 500; }
   .footer-calender { display: flex; align-items: center; justify-content: space-between; background-color: #EFEFEF; padding: 0 5%; color: #424242; margin-top: 4px; border-radius: 4px; height: 45px; }
@@ -57,7 +57,7 @@
   .cart-checkout-button { height: 50px; border: none; background-color: #EF4444; color: #FFFF; font-size: 16px; font-weight: 800; width: 100%; cursor: pointer; border-radius: 6px; }
   .footer-tax-text { font-size: 12px; font-weight: 500; color: #424242; text-align: center; margin-top: 6px; }
 
-  .calendar-modal { position: absolute; bottom: -100%; left: 0; width: 100%; background: #fff; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; border-top-left-radius: 15px; border-top-right-radius: 15px;     font-family: 'Inter', sans-serif !important; }
+  .calendar-modal { position: absolute; bottom: -100%; left: 0; width: 100%; background: #fff; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; border-top-left-radius: 15px; border-top-right-radius: 15px; font-family: 'Inter', sans-serif !important; }
   .calendar-modal.active { bottom: 0; }
   .calendar-content { padding: 4% 6%; }
   .calendar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #F4F4F5; margin-bottom: 10px; padding-bottom: 10px; }
@@ -76,245 +76,326 @@
 <div class="overlay" id="CartOverlay"></div>
 
 <div class="section-cart" id="CartDrawer">
-    <div class="cart-container" id="CartDrawerContent">
-        <div class="cart-header">
-            <div class="cart-header-left">
-                <h3>Cart</h3>
-                <p class="total-product-count">{{ cart.item_count }} products</p>
-            </div>
-            <div class="cart-close-button-container">
-                <button class="cart-close-button" id="CloseDrawerBtn">X</button>
-            </div>
-        </div>
-
-        <div class="body-cart">
-            <div class="product-wrapper">
-                {% for item in cart.items %}
-                <div class="product-card-cart">
-                    <div class="product-card-cart-img-wrapper">
-                        <img class="product-card-cart-img" src="{{ item.image | image_url: width: 220 }}" alt="{{ item.product.title }}" width="110" height="110">
-                    </div>
-                    <div class="product-card-cart-center">
-                        <div class="product-card-cart-center-headingandprice">
-                            <h4 class="product-card-cart-center-heading">{{ item.product.title | truncate: 45 }}</h4>
-                            <h4 class="product-card-cart-center-total-price">{{ item.final_line_price | money }}</h4>
-                        </div>
-                        <h5 class="product-card-cart-center-price">{{ item.variant.price | money }}</h5>
-                        <h5 class="product-card-cart-center-flavour">Flavour: {{ item.properties['Flavour'] | default: 'Standard' }}</h5>
-                        <h5 class="product-card-cart-center-potency">Potency: {{ item.properties['Potency'] | default: 'Standard' }}</h5>
-
-                        <div class="product-card-cart-actions">
-                            <div class="counter">
-                                <button class="counter-btn" onclick="updateCartItem('{{ item.key }}', {{ item.quantity | minus: 1 }})">−</button>
-                                <span class="counter-value">{{ item.quantity }}</span>
-                                <button class="counter-btn" onclick="updateCartItem('{{ item.key }}', {{ item.quantity | plus: 1 }})">+</button>
-                            </div>
-                            <button class="delete-btn" onclick="updateCartItem('{{ item.key }}', 0)">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#424242"><path d="M280-280h80v-400h-80v400Zm160 0h80v-400h-80v400ZM200-120q-33 0-56.5-23.5T120-200v-520h-40v-80h200v-40h320v40h200v80h-40v520q0 33-23.5 56.5T680-120H200Zm480-600H200v520h480v-520Zm-480 0v520-520Z"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="footer-cart">
-            <p class="choose-delivery-date">Choose Delivery Date:</p>
-            <div class="footer-calender">
-                <p class="dd-mm-yy" id="MainDateDisplay">dd / mm / yyyy</p>
-                <button type="button" id="OpenCalendar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                </button>
-            </div>
-            <div class="estimated-total">
-                <h5 class="estimated-total-des">Estimated Total:</h5>
-                <h5 class="estimated-total-price-total">{{ cart.total_price | money }}</h5>
-            </div>
-            <form action="{{ routes.cart_url }}" method="post">
-                <button type="submit" name="checkout" class="cart-checkout-button">Checkout</button>
-            </form>
-            <p class="footer-tax-text">Taxes, discounts and shipping calculated at checkout</p>
-
-            <div class="calendar-modal" id="calendarModal">
-                <div class="calendar-content">
-                    <div class="calendar-header">
-                        <button type="button" id="prevMonth">&lt;</button>
-                        <h4 id="monthDisplay">Month Year</h4>
-                        <button type="button" id="nextMonth">&gt;</button>
-                    </div>
-                    <div class="calendar-weekdays">
-                        <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
-                    </div>
-                    <div class="calendar-days" id="calendarDays"></div>
-                    <div class="calendar-footer">
-                        <div class="selected-date-preview">
-                            <span id="previewDate">None</span>
-                        </div>
-                        <button type="button" id="setDateBtn" class="set-date-btn">Set Date</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="cart-container" id="CartDrawerContent">
+    <div class="cart-header">
+      <div class="cart-header-left">
+        <h3>Cart</h3>
+        <p class="total-product-count" id="CartItemCount">{{ cart.item_count }} products</p>
+      </div>
+      <div class="cart-close-button-container">
+        <button class="cart-close-button" id="CloseDrawerBtn">X</button>
+      </div>
     </div>
+
+    <div class="body-cart">
+      <div class="product-wrapper" id="CartItemsWrapper">
+        {% for item in cart.items %}
+          <div class="product-card-cart">
+            <div class="product-card-cart-img-wrapper">
+              <img
+                class="product-card-cart-img"
+                src="{{ item.image | image_url: width: 220 }}"
+                alt="{{ item.product.title }}"
+                width="110"
+                height="110"
+              >
+            </div>
+            <div class="product-card-cart-center">
+              <div class="product-card-cart-center-headingandprice">
+                <h4 class="product-card-cart-center-heading">{{ item.product.title | truncate: 45 }}</h4>
+                <h4 class="product-card-cart-center-total-price">{{ item.final_line_price | money }}</h4>
+              </div>
+              <h5 class="product-card-cart-center-price">{{ item.variant.price | money }}</h5>
+              <h5 class="product-card-cart-center-flavour">
+                Flavour: {{ item.properties.Flavour | default: 'Standard' }}
+              </h5>
+              <h5 class="product-card-cart-center-potency">
+                Potency: {{ item.properties.Potency | default: 'Standard' }}
+              </h5>
+              <div class="product-card-cart-actions">
+                <div class="counter">
+                  <button class="counter-btn" data-action="decrease" data-key="{{ item.key }}" data-qty="{{ item.quantity }}">−</button>
+                  <span class="counter-value">{{ item.quantity }}</span>
+                  <button class="counter-btn" data-action="increase" data-key="{{ item.key }}" data-qty="{{ item.quantity }}">+</button>
+                </div>
+                <button class="delete-btn" data-action="remove" data-key="{{ item.key }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#424242">
+                    <path d="M280-280h80v-400h-80v400Zm160 0h80v-400h-80v400ZM200-120q-33 0-56.5-23.5T120-200v-520h-40v-80h200v-40h320v40h200v80h-40v520q0 33-23.5 56.5T680-120H200Zm480-600H200v520h480v-520Zm-480 0v520-520Z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="footer-cart">
+      <p class="choose-delivery-date">Choose Delivery Date:</p>
+      <div class="footer-calender">
+        <p class="dd-mm-yy" id="MainDateDisplay">dd / mm / yyyy</p>
+        <button type="button" id="OpenCalendar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="estimated-total">
+        <h5 class="estimated-total-des">Estimated Total:</h5>
+        <h5 class="estimated-total-price-total" id="CartTotal">{{ cart.total_price | money }}</h5>
+      </div>
+      <form action="{{ routes.cart_url }}" method="post">
+        <button type="submit" name="checkout" class="cart-checkout-button">Checkout</button>
+      </form>
+      <p class="footer-tax-text">Taxes, discounts and shipping calculated at checkout</p>
+
+      <div class="calendar-modal" id="calendarModal">
+        <div class="calendar-content">
+          <div class="calendar-header">
+            <button type="button" id="prevMonth">&lt;</button>
+            <h4 id="monthDisplay">Month Year</h4>
+            <button type="button" id="nextMonth">&gt;</button>
+          </div>
+          <div class="calendar-weekdays">
+            <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+          </div>
+          <div class="calendar-days" id="calendarDays"></div>
+          <div class="calendar-footer">
+            <div class="selected-date-preview">
+              <span id="previewDate">None</span>
+            </div>
+            <button type="button" id="setDateBtn" class="set-date-btn">Set Date</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-let currentCalDate = new Date();
-let selectedCalDate = null;
+(function () {
 
-const openCart = () => {
-    document.getElementById('CartDrawer').classList.add('active');
-    document.getElementById('CartOverlay').classList.add('active');
-};
-const closeCart = () => {
-    document.getElementById('CartDrawer').classList.remove('active');
-    document.getElementById('CartOverlay').classList.remove('active');
-    document.getElementById('calendarModal').classList.remove('active');
-};
+  const rawFetch = window.fetch.bind(window);
 
-document.getElementById('CloseDrawerBtn').addEventListener('click', closeCart);
-document.getElementById('CartOverlay').addEventListener('click', closeCart);
+  function formatMoney(cents) {
+    const symbol = '{{ cart.currency.symbol }}';
+    return symbol + (cents / 100).toFixed(2);
+  }
 
-function refreshCartDrawer(open = true) {
-    fetch(window.location.href)
-        .then(res => res.text())
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const newContent = doc.getElementById('CartDrawerContent');
-            if (newContent) {
-                document.getElementById('CartDrawerContent').innerHTML = newContent.innerHTML;
-                initCalendarLogic(); 
-                if(open) openCart();
-            }
-        });
-}
+  
+  const overlay    = document.getElementById('CartOverlay');
+  const cartDrawer = document.getElementById('CartDrawer');
 
-function updateCartItem(key, qty) {
-    fetch(window.Shopify.routes.root + 'cart/change.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: key, quantity: qty })
-    }).then(() => refreshCartDrawer(false));
-}
+  function openCart() {
+    cartDrawer.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
 
-function initCalendarLogic() {
-    const calendarModal = document.getElementById('calendarModal');
-    const calendarBtn = document.getElementById('OpenCalendar');
-    const setDateBtn = document.getElementById('setDateBtn');
+  function closeCart() {
+    cartDrawer.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 
-    if (calendarBtn) {
-        calendarBtn.onclick = (e) => {
-            e.preventDefault();
-            calendarModal.classList.toggle('active');
+  overlay.addEventListener('click', closeCart);
+  document.getElementById('CloseDrawerBtn').addEventListener('click', closeCart);
+
+
+  function refreshCartDrawer(openAfter) {
+    const savedDate = document.getElementById('MainDateDisplay').innerText;
+
+    rawFetch(window.Shopify.routes.root + 'cart.js')
+      .then(function(r) { return r.json(); })
+      .then(function(cart) {
+
+        document.getElementById('CartItemCount').innerText = cart.item_count + ' products';
+        document.getElementById('CartTotal').innerText = formatMoney(cart.total_price);
+
+        return rawFetch('/?sections={{ section.id }}')
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            const html     = data['{{ section.id }}'];
+            if (!html) return;
+
+            const parser   = new DOMParser();
+            const doc      = parser.parseFromString(html, 'text/html');
+            const newItems = doc.querySelector('#CartItemsWrapper');
+            const curItems = document.getElementById('CartItemsWrapper');
+            if (newItems && curItems) curItems.innerHTML = newItems.innerHTML;
+
+            document.getElementById('MainDateDisplay').innerText = savedDate;
+
+            
             renderCalendar();
-        };
+
+            if (openAfter) openCart();
+          });
+      })
+      .catch(function(err) {
+        console.warn('Cart refresh error, falling back:', err);
+        rawFetch(window.location.href)
+          .then(function(r) { return r.text(); })
+          .then(function(html) {
+            const parser = new DOMParser();
+            const doc    = parser.parseFromString(html, 'text/html');
+
+            const sel = function(id) { return document.getElementById(id); };
+            const src = function(q)  { return doc.querySelector(q); };
+
+            const newItems = src('#CartItemsWrapper');
+            if (newItems) sel('CartItemsWrapper').innerHTML = newItems.innerHTML;
+
+            const newTotal = src('#CartTotal');
+            if (newTotal) sel('CartTotal').innerHTML = newTotal.innerHTML;
+
+            const newCount = src('#CartItemCount');
+            if (newCount) sel('CartItemCount').innerHTML = newCount.innerHTML;
+
+            sel('MainDateDisplay').innerText = savedDate;
+            renderCalendar();
+            if (openAfter) openCart();
+          });
+      });
+  }
+
+ 
+  function updateCartItem(key, qty) {
+    rawFetch(window.Shopify.routes.root + 'cart/change.js', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ id: key, quantity: qty }),
+    }).then(function() { refreshCartDrawer(false); });
+  }
+
+  document.getElementById('CartItemsWrapper').addEventListener('click', function(e) {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+
+    const key    = btn.dataset.key;
+    const action = btn.dataset.action;
+
+    if (action === 'remove') {
+      updateCartItem(key, 0);
+      return;
     }
 
-    if (setDateBtn) {
-        setDateBtn.onclick = () => {
-            if (selectedCalDate) {
-                document.getElementById('MainDateDisplay').innerText = formatWithSpaces(selectedCalDate);
-                calendarModal.classList.remove('active');
-            }
-        };
-    }
+    
+    const qty = parseInt(btn.dataset.qty, 10) || 0;
+    if (action === 'increase') updateCartItem(key, qty + 1);
+    if (action === 'decrease') updateCartItem(key, Math.max(0, qty - 1));
+  });
 
-    const prevBtn = document.getElementById('prevMonth');
-    const nextBtn = document.getElementById('nextMonth');
-    if(prevBtn) {
-      prevBtn.onclick = () => {
-          currentCalDate.setMonth(currentCalDate.getMonth() - 1);
-          renderCalendar();
-      };
-    }
-    if(nextBtn) {
-      nextBtn.onclick = () => {
-          currentCalDate.setMonth(currentCalDate.getMonth() + 1);
-          renderCalendar();
-      };
-    }
-}
+  let currentCalDate  = new Date();
+  let selectedCalDate = null;  
 
-function renderCalendar() {
+  document.getElementById('OpenCalendar').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('calendarModal').classList.toggle('active');
+    renderCalendar();
+  });
+
+  document.getElementById('setDateBtn').addEventListener('click', function() {
+    if (selectedCalDate) {
+      document.getElementById('MainDateDisplay').innerText = formatWithSpaces(selectedCalDate);
+    }
+    document.getElementById('calendarModal').classList.remove('active');
+  });
+
+  document.getElementById('prevMonth').addEventListener('click', function() {
+    currentCalDate.setMonth(currentCalDate.getMonth() - 1);
+    renderCalendar();
+  });
+
+  document.getElementById('nextMonth').addEventListener('click', function() {
+    currentCalDate.setMonth(currentCalDate.getMonth() + 1);
+    renderCalendar();
+  });
+
+  function renderCalendar() {
     const calendarDays = document.getElementById('calendarDays');
     const monthDisplay = document.getElementById('monthDisplay');
-    const previewDate = document.getElementById('previewDate');
-    
-    if(!calendarDays || !monthDisplay) return;
+    const previewDate  = document.getElementById('previewDate');
 
     calendarDays.innerHTML = '';
-    const now = new Date();
+
+    const now   = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-    const year = currentCalDate.getFullYear();
+    const year  = currentCalDate.getFullYear();
     const month = currentCalDate.getMonth();
-    
-    monthDisplay.innerText = new Intl.DateTimeFormat('en-US', { month: 'long'}).format(currentCalDate);
 
-    let firstDay = new Date(year, month, 1).getDay() - 1; 
-    if (firstDay === -1) firstDay = 6; 
+    monthDisplay.innerText = new Intl.DateTimeFormat('en-US', {
+      month: 'long', year: 'numeric',
+    }).format(currentCalDate);
+
+    let firstDay = new Date(year, month, 1).getDay() - 1;
+    if (firstDay === -1) firstDay = 6;
+
+    for (var i = 0; i < firstDay; i++) {
+      calendarDays.appendChild(document.createElement('span'));
+    }
+
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    for (let i = 0; i < firstDay; i++) {
-        const span = document.createElement('span');
-        span.classList.add('empty');
-        calendarDays.appendChild(span);
-    }
+    for (var day = 1; day <= daysInMonth; day++) {
+      (function(d) {
+        const span    = document.createElement('span');
+        span.innerText = d;
+        const thisDate = new Date(year, month, d);
 
-    for (let day = 1; day <= daysInMonth; day++) {
-        const span = document.createElement('span');
-        span.innerText = day;
-        const dateToCheck = new Date(year, month, day);
-
-        if (dateToCheck < today) span.classList.add('past-date');
-        if (selectedCalDate && selectedCalDate.toDateString() === dateToCheck.toDateString()) {
-            span.classList.add('selected');
+        if (thisDate < today) {
+          span.classList.add('past-date');
         }
 
-        span.onclick = () => {
-            if (!span.classList.contains('past-date')) {
-                document.querySelectorAll('.calendar-days span').forEach(s => s.classList.remove('selected'));
-                span.classList.add('selected');
-                selectedCalDate = new Date(year, month, day);
-                if(previewDate) previewDate.innerText = formatWithSpaces(selectedCalDate);
-            }
-        };
-        calendarDays.appendChild(span);
-    }
-}
+        if (
+          selectedCalDate &&
+          thisDate.getFullYear() === selectedCalDate.getFullYear() &&
+          thisDate.getMonth()    === selectedCalDate.getMonth() &&
+          thisDate.getDate()     === selectedCalDate.getDate()
+        ) {
+          span.classList.add('selected');
+          if (previewDate) previewDate.innerText = formatWithSpaces(selectedCalDate);
+        }
 
-function formatWithSpaces(date) {
+        span.addEventListener('click', function() {
+          if (span.classList.contains('past-date')) return;
+          calendarDays.querySelectorAll('span').forEach(function(s) { s.classList.remove('selected'); });
+          span.classList.add('selected');
+          selectedCalDate = new Date(year, month, d);
+          if (previewDate) previewDate.innerText = formatWithSpaces(selectedCalDate);
+        });
+
+        calendarDays.appendChild(span);
+      })(day);
+    }
+  }
+
+  function formatWithSpaces(date) {
     const d = String(date.getDate()).padStart(2, '0');
     const m = String(date.getMonth() + 1).padStart(2, '0');
     const y = date.getFullYear();
-    return `${d} / ${m} / ${y}`;
-}
+    return d + ' / ' + m + ' / ' + y;
+  }
 
-// Auto-open logic starts here
-document.addEventListener('cart:add', () => {
-    refreshCartDrawer(true);
-});
-
-const originalFetch = window.fetch;
-window.fetch = function() {
-    return originalFetch.apply(this, arguments).then((response) => {
-        if (response.url.includes('/cart/add')) {
-            refreshCartDrawer(true);
-        }
-        return response;
+  const _realFetch = window.fetch;
+  window.fetch = function() {
+    return _realFetch.apply(this, arguments).then(function(response) {
+      if (response.url && response.url.includes('/cart/add')) {
+        refreshCartDrawer(true);
+      }
+      return response;
     });
-};
+  };
 
-document.addEventListener('DOMContentLoaded', initCalendarLogic);
+})();
 </script>
 
 {% schema %}
 {
   "name": "Custom Cart Drawer",
-  "settings": [
-    { "type": "font_picker", "id": "font_body", "label": "Font Family", "default": "raleway_n4" }
-  ]
+  "settings": [{ "type": "font_picker", "id": "font_body", "label": "Font Family", "default": "raleway_n4" }]
 }
 {% endschema %}

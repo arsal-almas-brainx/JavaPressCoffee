@@ -20,7 +20,7 @@
             "text_after": "Coffee Routine!",
             "description": "Discover your tailored at home coffee products & routine as we are your <strong>100% FREE Coffee Concierge!</strong>",
             "btn_1_text": "BROWSE ALL PRODUCTS",
-            "link_1": "",
+            "link_1": "shopify://collections",
             "btn_2_text": "TAKE YOUR FREE SURVEY NOW",
             "link_2": "",
             "rating_text": "4.9/5.00 (Serviced 6,000,000+ Coffee Lovers)"
@@ -91,6 +91,7 @@
       "type": "featured-product-custom",
       "name": "Featured Product Static",
       "settings": {
+        "product_ref": "roasted-coffee-grinder-chocolate-flavour",
         "image": "shopify://shop_images/featured-1-bag.png",
         "tag_1": "Best Sellers",
         "tag_2": "Staff Pick",
